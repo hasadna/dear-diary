@@ -17,7 +17,9 @@ def import_single(resource_id: str, force: bool) -> None:
         return
     try:
         # Get record
-        info = requests.get(RESOURCE_SHOW, params={"id":resource_id}).json() 
+        resp = requests.get(RESOURCE_SHOW, params={"id":resource_id})
+        resp.raise_for_status()
+        info = resp.json() 
         assert info['success']
         info = info['result']
         # Ensure mimetype works

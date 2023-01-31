@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
-from parsing.services import parser
+from parsing.services import importer
 
 class Command(BaseCommand):
     help = "Parse a single resource from the website"
@@ -19,4 +19,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         resource_id = options["resource_id"]
         force = options["force"]
-        parser.parse_single(resource_id, force=force)
+        importer.import_single(resource_id, force=force)
