@@ -10,8 +10,8 @@ from parsing import models
 
 def handle_single_record(record, force:bool):
     resource_id, title = record['resource_id'], record['name']
-    calendar, _created = models.Calendar.objects.get_or_create(resource_id=resource_id)
-    if force and calendar.title != title:
+    calendar, created = models.Calendar.objects.get_or_create(resource_id=resource_id)
+    if created or (force and calendar.title != title):
         calendar.title= title
         calendar.save()
 
