@@ -1,18 +1,23 @@
 from django.db import models
 from django.utils import timezone
 
-# website:
-# unprocessed file
-# processed file
 
-class FileImportResult(models.Model):
+class BaseModel(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
-    resource_id = models.UUIDField(db_index=True, unique=True)
-    result_is_successful = models.BooleanField()
-    result_error = models.TextField(null=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-class UnprocessedFile(models.Model):
+    class Meta:
+        abstract = True
+
+
+class Calendar(BaseModel):
     resource_id = models.UUIDField(db_index=True, unique=True)
-    mime_type = models.CharField(max_length=100)
-    name = models.CharField(max_length=99)
-    url = models.CharField(max_length=300)
+    title = models.CharField(max_length=100)
+
+
+class Event(BaseModel):
+    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    subject = models.CharField(max_length=50)
+    location = models.CharField(max_length=50, null=True)

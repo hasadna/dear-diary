@@ -14,6 +14,30 @@ class Event(NamedTuple):
     title: str
     location: str
 
+
+class BasicBarser:
+
+    COLUMN_NAMES={
+        "start": [
+            "תאריך התחלה",
+            "התחלה",
+            "תאריך ושעת התחלה",
+            "Start Date",
+        ]
+    }
+
+    def parse(self, f):
+        workbook = openpyxl.load_workbook(f)
+        # Assert one sheet
+        sheet, = workbook._sheets
+
+    def _column_seeker(self, sheet, column_key) -> int:
+        """
+        Given a column key, try and find the
+        correct column in the first row
+        """
+        pass
+
 class XslxParser:
     def parse(self, f):
         workbook = openpyxl.load_workbook(f)
