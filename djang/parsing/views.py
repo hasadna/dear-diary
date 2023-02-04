@@ -9,7 +9,7 @@ from parsing.models import Calendar, Event
 from datetime import datetime,timezone
 
 def calendar_list(request):
-    cals = Calendar.objects.all()
+    cals = Calendar.objects.exclude(event=None).all()
     ret = [
         cal.to_dict()
         for cal in cals
@@ -27,8 +27,6 @@ def events_feed(request, calendar_id):
     events = Event.objects.filter(
         calendar__id=calendar_id,
         start__range=(start,end),
-        # TODO is this hurting the index?
-        end__lt=end,
     ).all()
     ret = [
         event.to_dict()

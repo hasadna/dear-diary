@@ -2,27 +2,114 @@
 <html lang='en'>
   <head>
     <meta charset='utf-8' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.1/index.global.min.js'></script>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
     <script>
 
-      document.addEventListener('DOMContentLoaded', function() {
+      async function createLabel(calendarApi) {
+        const calendar_list = document.getElementById('calendar-list');
+        const request = new Request('/api/calendars/');
+        const res = await fetch(request);
+        const json_res = await res.json();
+        const calendars = json_res.calendars;
+        calendars.forEach(calendar => {
+
+          const div = document.createElement("div");
+          //input.type="checkbox";
+          div.className="list-group-item list-group-item-action list-group-item-light p-3";
+          calendar_list.appendChild(div);
+
+          const inputId = `check-${calendar.id}`;
+
+          const input = document.createElement("input");
+          input.className="form-check-input";
+          input.type="checkbox";
+          input.id = inputId;
+
+          input.addEventListener('change', (event) => {
+            if (event.currentTarget.checked) {
+              calendarApi.addEventSource(
+                {
+                  id: calendar.id,
+                  url: `/api/events/${calendar.id}`,
+                },
+              );
+            } else {
+              const eventSource = calendarApi.getEventSourceById(calendar.id);
+              if (eventSource) {
+                eventSource.remove();
+              }
+            }
+          });
+
+          div.appendChild(input);
+
+          const label = document.createElement("label");
+          label.htmlFor=inputId;
+          label.className = "flexCheckDefault";
+          label.innerText = calendar.title;
+          div.appendChild(label);
+        });
+      }
+      document.addEventListener('DOMContentLoaded', async function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+          themeSystem: 'bootstrap5',
           initialView: 'dayGridMonth',
         });
         calendar.render();
 
-        calendar.addEventSource(
-          {
-            url: '/api/events/32',
-          },
-        );
+        await createLabel(calendar);
       });
+
 
     </script>
   </head>
-  <body>
-    <div id='calendar'></div>
-  </body>
+   <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper" style="height:100%;overflow:auto">
+                <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+                <div id="calendar-list" class="list-group list-group-flush">
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper" style="width:100%">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#!">Action</a>
+                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
 </html>
 
