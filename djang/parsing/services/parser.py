@@ -1,86 +1,85 @@
 import io
 from typing import Dict, NamedTuple
 from datetime import datetime
-
-from parsing import models
-
-import requests
-
+from django.utils.timezone import make_aware
 import openpyxl
 
-class Event(NamedTuple):
+from .. import models 
+from . import parser2
+
+class Record(NamedTuple):
+    calendar: models.Calendar
     start: datetime
     end: datetime
-    title: str
-    location: str
+    subject: str
+
+def record_to_event(record):
+    return models.Event(
+        calendar=record.calendar,
+        start=make_aware(datetime.fromtimestamp(record.start)),
+        end=make_aware(datetime.fromtimestamp(record.end)),
+        subject=record.subject,
+    )
+
+def dict_to_record(d, calendar):
+    r = parser2.parse_row(d)
+    if not r:
+        return None
+    r['calendar']=calendar
+    return Record(**r)
+
+def workbook_to_dict(workbook):
+    # Assert there is only one page
+    (sheet,) = workbook._sheets
+
+    first_row = sheet[1]
+    field_names = [c.value for c in first_row]
+
+    # Ensure we don't have too few or too many fields
+    assert 2 < len(first_row) < 15
+
+    for row in sheet.iter_rows(min_row=2):
+        row_ret = {}
+        for cell in row:
+            i = cell.column - 1
+            title = first_row[i].value
+            if not title:
+                continue
+            val = cell.value
+
+            # TODO do we need this?
+            if val is not None:
+                val = str(val)
 
 
-class BasicBarser:
-
-    COLUMN_NAMES={
-        "start": [
-            "תאריך התחלה",
-            "התחלה",
-            "תאריך ושעת התחלה",
-            "Start Date",
-        ]
-    }
-
-    def parse(self, f):
-        workbook = openpyxl.load_workbook(f)
-        # Assert one sheet
-        sheet, = workbook._sheets
-
-    def _column_seeker(self, sheet, column_key) -> int:
-        """
-        Given a column key, try and find the
-        correct column in the first row
-        """
-        pass
-
-class XslxParser:
-    def parse(self, f):
-        workbook = openpyxl.load_workbook(f)
-        sheet, = workbook._sheets
-        for r in sheet.iter_rows(min_row=2):
-            yield [c.value for c in r]
-
-class SimpleMapper:
-    def __init__(
-        self,
-        start_column:int,
-        end_column:int,
-        title_column:int,
-        location_column:int,
-    ):
-        self.start_column=start_column
-        self.end_column=end_column
-        self.title_column=title_column
-        self.location_column=location_column
-
-    def parse(self, row):
-        return Event(
-            start=row[self.start_column],
-            end=row[self.end_column],
-            title=row[self.title_column],
-            location=row[self.location_column],
-        )
-        
+            row_ret[title] = val
+        yield row_ret
 
 
-def parse_single(pk: int):
-    # Get file from web
-    unprocessed_file = models.UnprocessedFile.objects.get(pk=pk)
-    # TODO choose parser by mimetype
-    resp = requests.get(unprocessed_file.url)
-    resp.raise_for_status()
-    content=resp.content
-    # parse and map
-    parser = XslxParser()
-    mapper = SimpleMapper(title_column=0, start_column=1, end_column=2, location_column=5)
-    with io.BytesIO(resp.content) as fh:
-        events = [
-            mapper.parse(row)
-            for row in parser.parse(fh)
-        ]
-    print("aaaa", events)
+def process_calendar(resource_id: str, calendar_name: str, file_stream: bytes, force:bool):
+    xlsx = io.BytesIO(file_stream)
+    wb = openpyxl.load_workbook(xlsx)
+    dicts = list(workbook_to_dict(wb))
+    if not dicts:
+        return
+
+    calendar, created = models.Calendar.objects.get_or_create(resource_id=resource_id)
+    assert created or force, "Calendar with resource_id already exists"
+
+    calendar.title = calendar_name
+    calendar.save()
+
+    # Delete all existing events
+    models.Event.objects.filter(calendar=calendar).delete()
+    records = [
+        dict_to_record(d, calendar)
+        for d in dicts
+    ]
+    records = [r for r in records if r]
+    events = [
+        record_to_event(record)
+        for record in records
+    ]
+    for event in events:
+        event.save()
+
