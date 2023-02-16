@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from parsing.views import calendar_list, events_feed, HomePageView
+from parsing.views import calendar_list, events_feed, HomePageView, FetchSingleItemView
 
 urlpatterns = [
     # path("admin/", admin.site.urls),
     path("", HomePageView.as_view()),
     path("api/calendars/", calendar_list),
     path("api/events/<int:calendar_id>", events_feed),
+    path("fetch/single", FetchSingleItemView.as_view()),
 ]
