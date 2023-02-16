@@ -1,6 +1,7 @@
 import io
 from typing import Dict, NamedTuple
 from datetime import datetime
+from django.db import transaction
 from django.utils.timezone import make_aware
 import openpyxl
 
@@ -56,6 +57,7 @@ def workbook_to_dict(workbook):
         yield row_ret
 
 
+@transaction.atomic
 def process_calendar(resource_id: str, calendar_name: str, file_stream: bytes, force:bool):
     xlsx = io.BytesIO(file_stream)
     wb = openpyxl.load_workbook(xlsx)
