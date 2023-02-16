@@ -7,8 +7,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - env:
-        DOCKER_APP_IMAGE_NAME: "ghcr.io/hasadna/dear-diary/leafy-app"
-        DOCKER_NGINX_IMAGE_NAME: "ghcr.io/hasadna/dear-diary/leafy-nginx"
+        DOCKER_APP_IMAGE_NAME: "ghcr.io/hasadna/dear-diary/dear-diary-app"
+        DOCKER_NGINX_IMAGE_NAME: "ghcr.io/hasadna/dear-diary/dear-diary-nginx"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HASADNA_K8S_DEPLOY_KEY: ${{ secrets.HASADNA_K8S_DEPLOY_KEY }}
         MAIN_BRANCH: main
