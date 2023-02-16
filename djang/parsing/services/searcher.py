@@ -36,4 +36,7 @@ def process_resources(query: str, website: str, force: bool):
         if filter_resource(r)
     ]
     for resource in resources:
-        process_resource_impl(resource, website, force)
+        try:
+            process_resource_impl(resource, website, force)
+        except Exception as e:
+            print(e)
