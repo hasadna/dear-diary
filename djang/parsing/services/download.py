@@ -4,6 +4,7 @@ import requests
 from .parser import process_calendar
 
 class ResourceTuple(NamedTuple):
+    id: str
     name: str
     mimetype: str
     url: str
@@ -16,6 +17,7 @@ def get_resource(resource_id: str, website:str):
     j = res.json()
     result = j['result']
     return ResourceTuple(
+        id=resource_id,
         name=result['name'],
         mimetype=result['mimetype'],
         url=result['url'],
@@ -36,16 +38,19 @@ def get_package_name(resource, website):
     j = res.json()
     return j['result']['title']
 
+def process_resource_impl(resource, website, force):
+    content = get_resource_content(resource)
+    calendar_name = get_package_name(resource, website=website)
+    process_calendar(
+        resource_id=resource.id,
+        calendar_name=calendar_name,
+        file_stream=content,
+        force=force,
+    )
+
 def process_resource(resource_id, website, force):
     resource = get_resource(
         resource_id=resource_id,
         website=website,
     )
-    content = get_resource_content(resource)
-    calendar_name = get_package_name(resource, website=website)
-    process_calendar(
-        resource_id=resource_id,
-        calendar_name=calendar_name,
-        file_stream=content,
-        force=force,
-    )
+    process_resource_impl(resource, website, force)
