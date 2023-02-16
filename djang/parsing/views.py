@@ -52,9 +52,10 @@ class FetchSingleItemView(FormView):
     def form_valid(self, form):
         resource_id = form.data['resource_id']
         website = form.data['website']
+        force = form.data['force']
         process_resource(
             resource_id=resource_id,
             website=website,
-            force=False,
+            force=force,
         )
-        super().form_valid(form)
+        return super().form_valid(form)
