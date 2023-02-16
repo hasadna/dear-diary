@@ -42,6 +42,7 @@ jobs:
             export GIT_SSH_COMMAND="ssh -i `pwd`/hasadna_k8s_deploy_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" &&\
             git clone git@github.com:hasadna/hasadna-k8s.git &&\
             cd hasadna-k8s &&\
+            mkdir -p apps/dear-diary &&\
             python update_yaml.py '{"appImage":"'"${DOCKER_APP_IMAGE_NAME}:${GITHUB_SHA}"'","nginxImage":"'"${DOCKER_NGINX_IMAGE_NAME}:${GITHUB_SHA}"'"}' apps/dear-diary/values-hasadna-auto-updated.yaml &&\
             git config --global user.name "dear-diary CI" &&\
             git config --global user.email "dear-diary-ci@localhost" &&\
