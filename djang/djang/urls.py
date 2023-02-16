@@ -23,5 +23,5 @@ urlpatterns = [
     path("", HomePageView.as_view()),
     path("api/calendars/", calendar_list),
     path("api/events/<int:calendar_id>", events_feed),
-    path("fetch/single", FetchSingleItemView.as_view()),
+    path("fetch/single", FetchSingleItemView.as_view(), name="fetch-single"),
 ]
