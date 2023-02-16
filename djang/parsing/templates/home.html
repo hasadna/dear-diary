@@ -29,6 +29,15 @@
           input.type="checkbox";
           input.id = inputId;
 
+          // Add this source
+          input.checked = true;
+          calendarApi.addEventSource(
+            {
+              id: calendar.id,
+              url: `/api/events/${calendar.id}`,
+            },
+          );
+
           input.addEventListener('change', (event) => {
             if (event.currentTarget.checked) {
               calendarApi.addEventSource(
