@@ -7,7 +7,6 @@ freeze:
 
 makemigrations:
 	venv/bin/python djang/manage.py makemigrations
-	venv/bin/python djang/manage.py makemigrations parsing
 	venv/bin/python djang/manage.py migrate
 serve:
 	venv/bin/python djang/manage.py runserver
