@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-l0ew42drtc5m1sq3xkrqlnoyn0xy0aktl3y+()$9d)z!wo3z0+"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+if not SECRET_KEY:
+    # for developement it's OK, for production we should set the DJANGO_SECRET_KEY env variable
+    SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if h.strip()]
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [h.strip() for h in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if h.strip()]
 
 # Application definition
 
@@ -75,11 +82,26 @@ WSGI_APPLICATION = "djang.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
+database_engine = os.environ.get('DJANGO_DATABASE_ENGINE')
+if database_engine == 'postgres':
+    default_database = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DJANGO_DATABASE_NAME'],
+        'USER': os.environ['DJANGO_DATABASE_USER'],
+        'PASSWORD': os.environ['DJANGO_DATABASE_PASSWORD'],
+        'HOST': os.environ['DJANGO_DATABASE_HOST'],
+        'PORT': os.environ['DJANGO_DATABASE_PORT'],
+    }
+elif not database_engine:
+    default_database = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
+else:
+    raise Exception(f'Unsupported database engine: {database_engine}')
+
+DATABASES = {
+    "default": default_database
 }
 
 
@@ -118,6 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.environ.get('DJANGO_STATIC_ROOT')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

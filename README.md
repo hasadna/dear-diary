@@ -25,3 +25,28 @@ rm -r djang/parsing/migrations djang/db.sqlite3 && make makemigrations
 venv/bin/python djang/manage.py import_calendars ~/projects/open-workshop/dear-diary-basic/output/calendar_names.json
 venv/bin/python djang/manage.py import_records ~/projects/open-workshop/dear-diary-basic/output/records.json
 ```
+
+## Docker Compose development
+
+This environment resembles the production environment as closely as possible.
+
+Run migrations:
+
+```bash
+docker-compose run --build --rm migrate
+```
+
+Start the web app:
+
+```bash
+docker-compose up -d --build ingress
+```
+
+Access at http://localhost:8000
+
+Start a shell to run management commands:
+
+```bash
+docker-compose exec web bash
+pytyhon manage.py
+```
