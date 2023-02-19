@@ -1,8 +1,9 @@
 import requests
 
 from .download import ResourceTuple, process_resource_impl
-
 from ..models import Calendar
+
+from django_q.tasks import async_task
 
 def get_resources(query: str, website: str):
     resource_search = f"{website}/api/3/action/resource_search"
@@ -28,7 +29,7 @@ def filter_resource(resource) -> bool:
 
     return True
 
-def process_resources(query: str, website: str, force: bool):
+def process_resources(query: str, website: str, force: bool, use_q:bool):
     # TODO this should be a separate task when we fully implement this
     resources = get_resources(query, website)
     resources = [
@@ -37,6 +38,9 @@ def process_resources(query: str, website: str, force: bool):
     ]
     for resource in resources:
         try:
-            process_resource_impl(resource, website, force)
+            if use_q:
+                async_task(process_resource_impl, resource, website, force)
+            else:
+                process_resource_impl(resource, website, force)
         except Exception as e:
             print(e)
