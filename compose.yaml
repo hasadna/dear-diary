@@ -33,7 +33,7 @@ services:
     depends_on: &dependsondb
       db:
         condition: service_healthy
-    command: ["migrations"]
+    command: ["migrate"]
 
   nginx:
     image: dear-diary-nginx
@@ -59,6 +59,15 @@ services:
     depends_on:
       - nginx
       - web
+
+  qcluster:
+    image: dear-diary
+    build: .
+    environment:
+      <<: *commonenv
+      DJANGO_Q_CLUSTER_SETTINGS_JSON: '{"workers": 2}'
+    depends_on: *dependsondb
+    command: ["qcluster"]
 
 volumes:
   pgdata:

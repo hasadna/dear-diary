@@ -50,3 +50,9 @@ Start a shell to run management commands:
 docker-compose exec web bash
 pytyhon manage.py
 ```
+
+Start the Q Cluster:
+
+```
+docker-compose up -d --build qcluster
+```

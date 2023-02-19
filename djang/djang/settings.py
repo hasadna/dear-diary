@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+import json
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 
@@ -154,4 +155,6 @@ Q_CLUSTER = {
     "timeout": 120,
     "retry": 130,
     "orm": "default",
+    **(json.loads(os.environ['DJANGO_Q_CLUSTER_SETTINGS_JSON'])
+       if os.environ.get('DJANGO_Q_CLUSTER_SETTINGS_JSON') else {})
 }
