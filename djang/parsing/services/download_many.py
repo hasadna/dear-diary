@@ -36,13 +36,10 @@ def filter_resource(resource, force:bool) -> bool:
 def process_resources(query: str, website: str, force: bool, use_q:bool):
     # TODO this should be a separate task when we fully implement this
     resources = get_resources(query, website)
-    resources = [
-        r for r in resources
-        if filter_resource(r, force=force)
-    ]
+
     filtered_resources = []
     for resource in resources:
-        if filter_resource(r, force=force):
+        if filter_resource(resource, force=force):
             filtered_resources.append(resource)
         else:
             DownloadReport(
@@ -50,7 +47,7 @@ def process_resources(query: str, website: str, force: bool, use_q:bool):
                 status="skipped",
             ).save()
 
-    for resource in resources:
+    for resource in filtered_resources:
         try:
             if use_q:
                 async_task(process_resource_impl, resource, website, force)
