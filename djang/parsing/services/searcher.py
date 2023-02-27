@@ -5,6 +5,10 @@ from ..models import Calendar
 
 from django_q.tasks import async_task
 
+class defaults:
+    website = "https://www.odata.org.il"
+    query = "name:יומן"
+
 def get_resources(query: str, website: str):
     resource_search = f"{website}/api/3/action/resource_search"
     res = requests.get(resource_search, params={"query":query})
@@ -44,3 +48,12 @@ def process_resources(query: str, website: str, force: bool, use_q:bool):
                 process_resource_impl(resource, website, force)
         except Exception as e:
             print(e)
+
+
+def process_resources_default():
+    return process_resources(
+        query=defaults.query,
+        website=defaults.website,
+        force=False,
+        usq_q=True,
+    )

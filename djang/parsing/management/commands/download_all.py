@@ -11,11 +11,11 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             "--website",
-            default="https://www.odata.org.il"
+            default=searcher.defaults.website,
         )
         parser.add_argument(
             "--query",
-            default="name:יומן"
+            default=searcher.defaults.query,
         )
         parser.add_argument(
             "--force",
