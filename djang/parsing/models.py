@@ -33,7 +33,7 @@ class DownloadReport(BaseModel):
     detail = models.TextField(null=True)
 
     def __str__(self):
-        return f"{self.reosurce_id} ({self.created_at}): {self.status}"
+        return f"{self.resource_id} ({self.created_at}): {self.status}"
 
 
 class Event(BaseModel):
