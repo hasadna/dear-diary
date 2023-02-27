@@ -24,11 +24,11 @@ def get_resources(query: str, website: str):
             package_id=result['package_id'],
         )
 
-def filter_resource(resource) -> bool:
+def filter_resource(resource, force:bool) -> bool:
     if resource.mimetype != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
         return False
 
-    if Calendar.objects.filter(resource_id=resource.id).exists():
+    if not force and Calendar.objects.filter(resource_id=resource.id).exists():
         return False
 
     return True
@@ -38,7 +38,7 @@ def process_resources(query: str, website: str, force: bool, use_q:bool):
     resources = get_resources(query, website)
     resources = [
         r for r in resources
-        if filter_resource(r)
+        if filter_resource(r, force=force)
     ]
     for resource in resources:
         try:
