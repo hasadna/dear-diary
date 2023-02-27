@@ -20,6 +20,9 @@ class Calendar(BaseModel):
             "title": self.title,
         }
 
+    def __str__(self):
+        return f"{self.title} ({self.resource_id})"
+
 
 class Event(BaseModel):
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
@@ -41,3 +44,6 @@ class Event(BaseModel):
             "start": self.start.isoformat(),
             "end": self.end.isoformat(),
         }
+
+    def __str__(self):
+        return f"{self.subject}: {self.start}-{self.end}"
