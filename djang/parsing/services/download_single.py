@@ -1,7 +1,9 @@
 from typing import NamedTuple
 import requests
+import traceback
 
 from .parser import process_calendar
+from ..models import DownloadReport
 
 class ResourceTuple(NamedTuple):
     id: str
@@ -49,8 +51,23 @@ def process_resource_impl(resource, website, force):
     )
 
 def process_resource(resource_id, website, force):
-    resource = get_resource(
+    try:
+        resource = get_resource(
+            resource_id=resource_id,
+            website=website,
+        )
+        process_resource_impl(resource, website, force)
+    except Exception as e:
+        status = "Exception"
+        detail = traceback.format_exc()
+    else:
+        status = "Success"
+        detail = None
+
+    DownloadReport(
         resource_id=resource_id,
-        website=website,
-    )
-    process_resource_impl(resource, website, force)
+        status=status,
+        detail=detail
+    ).save()
+
+

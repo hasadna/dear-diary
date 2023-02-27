@@ -1,7 +1,7 @@
 import requests
 
 from .download_single import ResourceTuple, process_resource_impl
-from ..models import Calendar
+from ..models import Calendar, DownloadReport
 
 from django_q.tasks import async_task
 
@@ -40,6 +40,16 @@ def process_resources(query: str, website: str, force: bool, use_q:bool):
         r for r in resources
         if filter_resource(r, force=force)
     ]
+    filtered_resources = []
+    for resource in resources:
+        if filter_resource(r, force=force):
+            filtered_resources.append(resource)
+        else:
+            DownloadReport(
+                resource_id=resource.id,
+                status="skipped",
+            ).save()
+
     for resource in resources:
         try:
             if use_q:

@@ -5,3 +5,4 @@ from . import models
 
 admin.site.register(models.Calendar)
 admin.site.register(models.Event)
+admin.site.register(models.DownloadReport)

@@ -3,7 +3,7 @@ import argparse
 
 from django.core.management.base import BaseCommand
 
-from ...services import download
+from ...services import download_single
 
 class Command(BaseCommand):
     help = "Import the calendar names form a package_mapping.json"
@@ -23,7 +23,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        download.process_resource(
+        download_single.process_resource(
             resource_id=options['resource_id'],
             website=options['website'],
             force=options['force'],

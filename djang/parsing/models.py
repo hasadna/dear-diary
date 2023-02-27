@@ -24,6 +24,15 @@ class Calendar(BaseModel):
         return f"{self.title} ({self.resource_id})"
 
 
+class DownloadReport(BaseModel):
+    """
+    Reporting on a download attempt
+    """
+    resource_id = models.UUIDField(db_index=True)
+    status = models.CharField(max_length=15)
+    detail = models.TextField(null=True)
+
+
 class Event(BaseModel):
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     start = models.DateTimeField()
