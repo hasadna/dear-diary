@@ -1,6 +1,6 @@
 import requests
 
-from .download import ResourceTuple, process_resource_impl
+from .download_single import ResourceTuple, process_resource_impl
 from ..models import Calendar
 
 from django_q.tasks import async_task

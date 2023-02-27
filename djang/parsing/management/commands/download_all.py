@@ -3,7 +3,7 @@ import argparse
 
 from django.core.management.base import BaseCommand
 
-from ...services import searcher
+from ...services import download_many
 
 class Command(BaseCommand):
     help = "Import the calendar names form a package_mapping.json"
@@ -11,11 +11,11 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             "--website",
-            default=searcher.defaults.website,
+            default=download_many.defaults.website,
         )
         parser.add_argument(
             "--query",
-            default=searcher.defaults.query,
+            default=download_many.defaults.query,
         )
         parser.add_argument(
             "--force",
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        searcher.process_resources(
+        download_many.process_resources(
             query=options['query'],
             website=options['website'],
             force=options['force'],

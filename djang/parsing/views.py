@@ -10,7 +10,6 @@ from parsing.models import Calendar, Event
 from datetime import datetime,timezone
 
 from .forms import FetchSingleItemForm
-from .services.download import process_resource
 
 def calendar_list(request):
     cals = Calendar.objects.exclude(event=None).all()
@@ -42,20 +41,3 @@ def events_feed(request, calendar_id):
 class HomePageView(TemplateView):
     template_name = "home.html"
 
-
-
-class FetchSingleItemView(FormView):
-    template_name = 'fetch.html'
-    form_class = FetchSingleItemForm
-    success_url = '/'
-
-    def form_valid(self, form):
-        resource_id = form.data['resource_id']
-        website = form.data['website']
-        force = form.data['force']
-        process_resource(
-            resource_id=resource_id,
-            website=website,
-            force=force,
-        )
-        return super().form_valid(form)
