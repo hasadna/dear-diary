@@ -32,6 +32,9 @@ class DownloadReport(BaseModel):
     status = models.CharField(max_length=15)
     detail = models.TextField(null=True)
 
+    def __str__(self):
+        return f"{self.reosurce_id} ({self.created_at}): {self.status}"
+
 
 class Event(BaseModel):
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
