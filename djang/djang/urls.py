@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from parsing.views import calendar_list, events_feed, HomePageView, FetchSingleItemView
+from parsing.views import calendar_list, events_feed, HomePageView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
