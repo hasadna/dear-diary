@@ -65,5 +65,5 @@ def process_resources_default():
         query=defaults.query,
         website=defaults.website,
         force=False,
-        usq_q=True,
+        use_q=True,
     )
