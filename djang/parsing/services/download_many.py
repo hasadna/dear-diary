@@ -19,6 +19,8 @@ def get_resources(query: str, website: str):
         yield ResourceTuple(
             id=result['id'],
             name=result['name'],
+            # TODO make this timezone aware
+            when_created=datetime.fromisoformat(result['created']),
             mimetype=result['mimetype'],
             url=result['url'],
             package_id=result['package_id'],
