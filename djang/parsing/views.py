@@ -5,11 +5,13 @@ from django.http import HttpResponse
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
+from django.views.generic import ListView, DetailView
 
-from parsing.models import Calendar, Event
+
+from parsing.models import Calendar, Event, DownloadReport
 from datetime import datetime,timezone
 
-from .forms import FetchSingleItemForm
+from .forms import DownloadReportSearchForm
 
 def calendar_list(request):
     cals = Calendar.objects.exclude(event=None).all()
@@ -41,3 +43,25 @@ def events_feed(request, calendar_id):
 class HomePageView(TemplateView):
     template_name = "home.html"
 
+class DownloadReportListView(ListView):
+    model = DownloadReport
+
+    def get_context_data(self, **kwargs):
+        kwargs["search_form"] = DownloadReportSearchForm()
+        return super().get_context_data(**kwargs)
+
+
+    def get_queryset(self):
+        qs = DownloadReport.objects.all()
+        form = DownloadReportSearchForm(self.request.GET)
+        if form.is_valid():
+            if resource_id := form.cleaned_data["resource_id"]:
+                qs = qs.filter(resource_id=resource_id)
+
+            if status := form.cleaned_data["status"]:
+                qs = qs.filter(status=status)
+
+        return qs
+
+class DownloadReportDetailView(DetailView):
+    model = DownloadReport

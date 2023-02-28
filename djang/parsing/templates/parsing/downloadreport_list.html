@@ -1,0 +1,25 @@
+<html>
+  <body>
+    <form method="get">
+    {{ search_form.as_p }}
+    <input type="submit" value="filter" />
+    </form>
+    <table>
+      <tr>
+        <th>Time</th>
+        <th>Resource ID</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    {% for object in downloadreport_list %}
+    <tr>
+      <td>{{object.created_at}}</td>
+      <td>{{object.resource_id}}</td>
+      <td>{{object.status}}</td>
+      <td><a href="{% url "download-reports-detail" pk=object.pk %}">view</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+  </body>
+
+</html>

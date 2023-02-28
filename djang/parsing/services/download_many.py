@@ -44,7 +44,7 @@ def process_resources(query: str, website: str, force: bool, use_q:bool):
         else:
             DownloadReport(
                 resource_id=resource.id,
-                status="skipped",
+                status="Skipped",
             ).save()
 
     for resource in filtered_resources:

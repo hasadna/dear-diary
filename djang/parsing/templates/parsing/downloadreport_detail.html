@@ -1,0 +1,22 @@
+<html>
+  <body>
+    <table>
+      <tr>
+        <th>Time</th>
+        <td>{{ object.created_at }}</td>
+      </tr>
+      <tr>
+        <th>Resource ID</th>
+        <td>{{object.resource_id}}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{object.status}}</td>
+      </tr>
+      <tr>
+        <th>Details</th>
+        <td>{{object.detail | linebreaks}}</td>
+      </tr>
+    </table>
+  </body>
+</html>
