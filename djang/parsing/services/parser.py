@@ -58,7 +58,7 @@ def workbook_to_dict(workbook):
 
 
 @transaction.atomic
-def process_calendar(resource_id: str, calendar_name: str, when_created_at_source: datetime.datetime, file_stream: bytes, force:bool):
+def process_calendar(resource_id: str, calendar_name: str, when_created_at_source: datetime, file_stream: bytes, force:bool):
     xlsx = io.BytesIO(file_stream)
     wb = openpyxl.load_workbook(xlsx)
     dicts = list(workbook_to_dict(wb))
