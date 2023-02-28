@@ -9,7 +9,7 @@ from ..models import DownloadReport
 class ResourceTuple(NamedTuple):
     id: str
     name: str
-    when_created: datetime.datetime
+    when_created: datetime
     mimetype: str
     url: str
     package_id: str
@@ -24,7 +24,7 @@ def get_resource(resource_id: str, website:str):
         id=resource_id,
         name=result['name'],
         # TODO make this timezone aware
-        when_created=datetime.datetime.fromisoformat(result['created']),
+        when_created=datetime.fromisoformat(result['created']),
         mimetype=result['mimetype'],
         url=result['url'],
         package_id=result['package_id'],
