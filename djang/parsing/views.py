@@ -32,7 +32,8 @@ def events_feed(request, calendar_id):
     events = Event.objects.filter(
         calendar__id=calendar_id,
         start__range=(start,end),
-    ).all()
+    )
+    events = events.order_by('-when_created_at_source', 'pk')
     ret = [
         event.to_dict()
         for event in events

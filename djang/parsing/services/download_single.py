@@ -1,6 +1,7 @@
 from typing import NamedTuple
 import requests
 import traceback
+from datetime import datetime
 
 from .parser import process_calendar
 from ..models import DownloadReport
@@ -8,6 +9,7 @@ from ..models import DownloadReport
 class ResourceTuple(NamedTuple):
     id: str
     name: str
+    when_created: datetime.datetime
     mimetype: str
     url: str
     package_id: str
@@ -21,6 +23,8 @@ def get_resource(resource_id: str, website:str):
     return ResourceTuple(
         id=resource_id,
         name=result['name'],
+        # TODO make this timezone aware
+        when_created=datetime.datetime.fromisoformat(result['created']),
         mimetype=result['mimetype'],
         url=result['url'],
         package_id=result['package_id'],
@@ -46,6 +50,7 @@ def process_resource_impl(resource, website, force):
     process_calendar(
         resource_id=resource.id,
         calendar_name=calendar_name,
+        when_created_at_source=resource.when_created
         file_stream=content,
         force=force,
     )
