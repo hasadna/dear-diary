@@ -37,15 +37,11 @@ def process_resources(query: str, website: str, force: bool, use_q:bool):
     # TODO this should be a separate task when we fully implement this
     resources = get_resources(query, website)
 
+    # Classic loop rather than list composition so we can implement an "else" logging "skipped"
     filtered_resources = []
     for resource in resources:
         if filter_resource(resource, force=force):
             filtered_resources.append(resource)
-        else:
-            DownloadReport(
-                resource_id=resource.id,
-                status="Skipped",
-            ).save()
 
     for resource in filtered_resources:
         try:
