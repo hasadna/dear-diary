@@ -63,7 +63,7 @@ def process_resource_impl(resource, website, force):
         detail = None
 
     DownloadReport(
-        resource_id=resource_id,
+        resource_id=resource.id,
         status=status,
         detail=detail
     ).save()
