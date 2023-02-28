@@ -50,7 +50,7 @@ def process_resource_impl(resource, website, force):
     process_calendar(
         resource_id=resource.id,
         calendar_name=calendar_name,
-        when_created_at_source=resource.when_created
+        when_created_at_source=resource.when_created,
         file_stream=content,
         force=force,
     )
