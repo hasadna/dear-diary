@@ -19,6 +19,7 @@
 
           const div = document.createElement("div");
           //input.type="checkbox";
+          div.setAttribute("x-name", calendar.title);
           div.className="list-group-item list-group-item-action list-group-item-light p-3";
           calendar_list.appendChild(div);
 
@@ -65,6 +66,17 @@
         await createLabel(calendar);
       });
 
+      function filterCalendars(text) {
+        const calendar_list = document.getElementById('calendar-list');
+        calendar_list.childNodes.forEach(c => {
+          if (!c.tagName) {
+            return;
+          }
+          const xname = c.getAttribute("x-name");
+          c.style.display = (xname && xname.includes(text)) ? '' : 'none';
+        });
+      }
+
 
     </script>
   </head>
@@ -72,8 +84,10 @@
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper" style="height:100%;overflow:auto">
-                <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+              <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+                  <input type="text" id="aaaa" placeholder="filter" class="list-group-item list-group-item-action list-group-item-light p-3" oninput="filterCalendars(this.value)"/>
                 <div id="calendar-list" class="list-group list-group-flush">
+                  
                 </div>
             </div>
             <!-- Page content wrapper-->
