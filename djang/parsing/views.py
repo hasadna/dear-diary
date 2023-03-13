@@ -14,7 +14,7 @@ from datetime import datetime,timezone
 from .forms import DownloadReportSearchForm
 
 def calendar_list(request):
-    cals = Calendar.objects.exclude(event=None).all()
+    cals = Calendar.objects.exclude(event=None).order_by('-when_created_at_source', 'pk')
     ret = [
         cal.to_dict()
         for cal in cals
@@ -33,7 +33,6 @@ def events_feed(request, calendar_id):
         calendar__id=calendar_id,
         start__range=(start,end),
     )
-    events = events.order_by('-when_created_at_source', 'pk')
     ret = [
         event.to_dict()
         for event in events
