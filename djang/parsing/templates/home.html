@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -7,93 +8,7 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.1/index.global.min.js'></script>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
-    <script>
-
-      async function createLabel(calendarApi) {
-        const calendar_list = document.getElementById('calendar-list');
-        const request = new Request('/api/calendars/');
-        const res = await fetch(request);
-        const json_res = await res.json();
-        const calendars = json_res.calendars;
-        calendars.forEach(calendar => {
-
-          const div = document.createElement("div");
-          //input.type="checkbox";
-          div.setAttribute("x-name", calendar.title);
-          div.className="list-group-item list-group-item-action list-group-item-light p-3";
-          calendar_list.appendChild(div);
-
-          const inputId = `check-${calendar.id}`;
-
-          const input = document.createElement("input");
-          input.className="form-check-input";
-          input.type="checkbox";
-          input.id = inputId;
-
-          input.addEventListener('change', (event) => {
-            if (event.currentTarget.checked) {
-              calendarApi.addEventSource(
-                {
-                  id: calendar.id,
-                  url: `/api/events/${calendar.id}`,
-                },
-              );
-            } else {
-              const eventSource = calendarApi.getEventSourceById(calendar.id);
-              if (eventSource) {
-                eventSource.remove();
-              }
-            }
-          });
-
-          div.appendChild(input);
-
-          const label = document.createElement("label");
-          label.htmlFor=inputId;
-          label.className = "flexCheckDefault";
-          label.innerText = calendar.title;
-          div.appendChild(label);
-        });
-      }
-      let calendar;
-      document.addEventListener('DOMContentLoaded', async function() {
-        const calendarEl = document.getElementById('calendar');
-        calendar = new FullCalendar.Calendar(calendarEl, {
-          themeSystem: 'bootstrap5',
-          initialView: 'dayGridMonth',
-        });
-        calendar.render();
-
-        await createLabel(calendar);
-      });
-
-      function filterCalendars(text) {
-        const calendar_list = document.getElementById('calendar-list');
-        calendar_list.childNodes.forEach(c => {
-          if (!c.tagName) {
-            return;
-          }
-          const xname = c.getAttribute("x-name");
-          c.style.display = (xname && xname.includes(text)) ? '' : 'none';
-        });
-      }
-
-      function changeView(view) {
-        switch(view) {
-          case "month":
-            calendar.changeView('dayGridMonth');
-            break;
-          case "week":
-            calendar.changeView('dayGridWeek');
-            break;
-          case "day": 
-            calendar.changeView('timeGridDay');
-            break;
-        }
-      }
-
-
-    </script>
+    <script src="{% static 'calendar.js' %}"></script>
   </head>
    <body>
         <div class="d-flex" id="wrapper">
@@ -143,7 +58,6 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
     </body>
 </html>
 
