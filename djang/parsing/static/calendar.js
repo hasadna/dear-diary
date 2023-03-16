@@ -1,50 +1,3 @@
-async function createLabels(calendarApi) {
-  const calendar_list = document.getElementById('calendar-list');
-  const request = new Request('/api/calendars/');
-  const res = await fetch(request);
-  const json_res = await res.json();
-  const calendars = json_res.calendars;
-  calendars.forEach(calendar => {
-
-    const div = document.createElement("div");
-    //input.type="checkbox";
-    div.setAttribute("x-name", calendar.title);
-    div.className="list-group-item list-group-item-action list-group-item-light p-3";
-    calendar_list.appendChild(div);
-
-    const inputId = `check-${calendar.id}`;
-
-    const input = document.createElement("input");
-    input.className="form-check-input";
-    input.type="checkbox";
-    input.id = inputId;
-
-    input.addEventListener('change', (event) => {
-      if (event.currentTarget.checked) {
-        calendarApi.addEventSource(
-          {
-            id: calendar.id,
-            url: `/api/events/${calendar.id}`,
-          },
-        );
-      } else {
-        const eventSource = calendarApi.getEventSourceById(calendar.id);
-        if (eventSource) {
-          eventSource.remove();
-        }
-      }
-    });
-
-    div.appendChild(input);
-
-    const label = document.createElement("label");
-    label.htmlFor=inputId;
-    label.className = "flexCheckDefault";
-    label.innerText = calendar.title;
-    div.appendChild(label);
-  });
-}
-
 function getAttributes() {
   const fragment = window.location.hash.substr(1);
   const urlParams = new URLSearchParams(fragment);
@@ -61,6 +14,69 @@ function setAttributeSingle(name, value) {
   attr.set(name, value);
   setAttributes(attr);
 }
+
+let sources = new Set();
+async function createLabels(calendarApi) {
+  const calendar_list = document.getElementById('calendar-list');
+  const request = new Request('/api/calendars/');
+  const res = await fetch(request);
+  const json_res = await res.json();
+  const calendars = json_res.calendars;
+  calendars.forEach(calendar => {
+
+    const div = document.createElement("div");
+    //input.type="checkbox";
+    div.setAttribute("x-name", calendar.title);
+    div.setAttribute("x-id", calendar.id);
+    div.className="list-group-item list-group-item-action list-group-item-light p-3";
+    calendar_list.appendChild(div);
+
+    const inputId = `check-${calendar.id}`;
+    const input = document.createElement("input");
+    input.className="form-check-input";
+    input.type="checkbox";
+    input.id = inputId;
+    input.checked = sources.has(calendar.id) ? 'checked' : '';
+
+    const onChange = (t) => {
+      if (t.checked) {
+        sources.add(calendar.id);
+        updateSourceAttributes();
+        calendarApi.addEventSource(
+          {
+            id: calendar.id,
+            url: `/api/events/${calendar.id}`,
+          },
+        );
+      } else {
+        const eventSource = calendarApi.getEventSourceById(calendar.id);
+        if (eventSource) {
+          sources.delete(calendar.id);
+          eventSource.remove();
+          updateSourceAttributes();
+        }
+      }
+    };
+    input.addEventListener('change', (event) => onChange(event.currentTarget));
+    onChange(input);
+
+    div.appendChild(input);
+
+    const label = document.createElement("label");
+    label.htmlFor=inputId;
+    label.className = "flexCheckDefault";
+    label.innerText = calendar.title;
+    div.appendChild(label);
+  });
+}
+
+
+function updateSourceAttributes() {
+  if (sources) {
+    setAttributeSingle("sources", Array.from(sources).join(","));
+  }
+}
+
 
 let calendar;
 document.addEventListener('DOMContentLoaded', async function() {
@@ -82,6 +98,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     const dateString = date.toLocaleString('sv').slice(0,10);
     setAttributeSingle('date', dateString);
   });
+  // Sources
+  sources = new Set((getAttributes().get('sources') || '').split(',').map(i=>Number(i)));
   calendar.render();
 
   await createLabels(calendar);
