@@ -56,14 +56,32 @@ function setAttributes(attr) {
   window.location.hash = hash;
 }
 
+function setAttributeSingle(name, value) {
+  const attr = getAttributes();
+  attr.set(name, value);
+  setAttributes(attr);
+}
+
 let calendar;
 document.addEventListener('DOMContentLoaded', async function() {
   const calendarEl = document.getElementById('calendar');
   calendar = new FullCalendar.Calendar(calendarEl, {
     themeSystem: 'bootstrap5',
   });
-  const initialView = getAttributes().get('view') || 'dayGridMonth';
+  const attrs = getAttributes();
+  const initialView = attrs.get('view') || 'dayGridMonth';
   changeView(initialView);
+  const initialDate = attrs.get('date');
+  if (initialDate) {
+    const date = new Date(initialDate);
+    calendar.gotoDate(date);
+  }
+  calendar.on('datesSet', (dateProfile, context) => {
+    const date = dateProfile.start;
+    // Get YYYY-MM-DD but in current timezone
+    const dateString = date.toLocaleString('sv').slice(0,10);
+    setAttributeSingle('date', dateString);
+  });
   calendar.render();
 
   await createLabels(calendar);
