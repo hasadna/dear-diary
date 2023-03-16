@@ -44,13 +44,26 @@ async function createLabels(calendarApi) {
     div.appendChild(label);
   });
 }
+
+function getAttributes() {
+  const fragment = window.location.hash.substr(1);
+  const urlParams = new URLSearchParams(fragment);
+  return urlParams;
+}
+
+function setAttributes(attr) {
+  const hash = `${attr.toString()}`;
+  window.location.hash = hash;
+}
+
 let calendar;
 document.addEventListener('DOMContentLoaded', async function() {
   const calendarEl = document.getElementById('calendar');
   calendar = new FullCalendar.Calendar(calendarEl, {
     themeSystem: 'bootstrap5',
-    initialView: 'dayGridMonth',
   });
+  const initialView = getAttributes().get('view') || 'dayGridMonth';
+  changeView(initialView);
   calendar.render();
 
   await createLabels(calendar);
@@ -79,4 +92,7 @@ function changeView(view) {
       calendar.changeView('timeGridDay');
       break;
   }
+  const attr = getAttributes();
+  attr.set('view', view);
+  setAttributes(attr);
 }
