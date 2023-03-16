@@ -1,4 +1,4 @@
-async function createLabel(calendarApi) {
+async function createLabels(calendarApi) {
   const calendar_list = document.getElementById('calendar-list');
   const request = new Request('/api/calendars/');
   const res = await fetch(request);
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
   calendar.render();
 
-  await createLabel(calendar);
+  await createLabels(calendar);
 });
 
 function filterCalendars(text) {
