@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     calendar.gotoDate(date);
   }
   calendar.on('datesSet', (dateProfile, context) => {
-    const date = dateProfile.start;
+    const date = new Date((dateProfile.start.getTime() + dateProfile.end.getTime())/2);
     // Get YYYY-MM-DD but in current timezone
     const dateString = date.toLocaleString('sv').slice(0,10);
     setAttributeSingle('date', dateString);
