@@ -16,6 +16,7 @@ function setAttributeSingle(name, value) {
 }
 
 let sources = new Set();
+const annotatedSources = {};
 async function createLabels(calendarApi) {
     const calendar_list = document.getElementById('calendar-list');
     const request = new Request('/api/calendars/');
@@ -23,6 +24,8 @@ async function createLabels(calendarApi) {
     const json_res = await res.json();
     const calendars = json_res.calendars;
     calendars.forEach(calendar => {
+
+        annotatedSources[calendar.id] = calendar.title;
 
         const div = document.createElement("div");
         //input.type="checkbox";
@@ -96,10 +99,38 @@ document.addEventListener('DOMContentLoaded', async function() {
         const dateString = date.toLocaleString('sv').slice(0, 10);
         setAttributeSingle('date', dateString);
     });
+
     // Sources
     sources = new Set((getAttributes().get('sources') || '').split(',').map(i => Number(i)));
-    calendar.render();
 
+    // Event Click
+    calendar.on("eventClick", (info) => {
+      info.jsEvent.preventDefault();
+
+      const modal = new bootstrap.Modal(document.getElementById('myModal'), {
+        keyboard: false
+      });
+
+      document.getElementById('modalTitle').innerText=info.event.title;
+      const locationElement = document.getElementById('modalLocation')
+      const location = info.event.location;
+      if (location) {
+        locationElement.innerText = location;
+      } else {
+        locationElement.innerHTML = '<i>unknown</i>'
+      }
+      const start = info.event.start; 
+      document.getElementById('modalStart').innerText=`${start.toLocaleDateString()} ${start.toLocaleTimeString()}`;
+      const end = info.event.end;
+      document.getElementById('modalEnd').innerText=`${end.toLocaleDateString()} ${end.toLocaleTimeString()}`;
+
+      
+      document.getElementById('modalCalendar').innerText=annotatedSources[info.event.source.id];
+
+      modal.show();
+    });
+
+    calendar.render();
     await createLabels(calendar);
 });
 

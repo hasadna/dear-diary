@@ -56,6 +56,7 @@ class Event(BaseModel):
             "title": self.subject,
             "start": self.start.isoformat(),
             "end": self.end.isoformat(),
+            "location": self.location,
         }
 
     def __str__(self):

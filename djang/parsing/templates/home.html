@@ -23,6 +23,43 @@
         <div id="calendar-list" class="list-group list-group-flush">
         </div>
       </div>
+
+      <!-- Modal stuff -->
+      <div id="myModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="modalTitle" class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Location</th>
+                    <td id="modalLocation"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Start</th>
+                    <td id="modalStart"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">End</th>
+                    <td id="modalEnd"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Calendar</th>
+                    <td id="modalCalendar"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Page content wrapper-->
       <div id="page-content-wrapper" style="width:100%">
         <!-- Top navigation-->
