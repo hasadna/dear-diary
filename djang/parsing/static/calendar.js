@@ -28,7 +28,6 @@ async function createLabels(calendarApi) {
         annotatedSources[calendar.id] = calendar.title;
 
         const div = document.createElement("div");
-        //input.type="checkbox";
         div.setAttribute("x-name", calendar.title);
         div.setAttribute("x-id", calendar.id);
         div.className = "list-group-item list-group-item-action list-group-item-light p-3";
