@@ -84,5 +84,9 @@ def process_calendar(resource_id: str, calendar_name: str, when_created_at_sourc
         for record in records
     ]
     for event in events:
-        event.save()
+        try:
+            event.save()
+        except Exception as e:
+            # TODO log
+            pass
 
