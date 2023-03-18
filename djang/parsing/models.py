@@ -42,7 +42,7 @@ class Event(BaseModel):
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     start = models.DateTimeField()
     end = models.DateTimeField()
-    subject = models.CharField(max_length=250)
+    subject = models.CharField(max_length=600)
     location = models.CharField(max_length=50, null=True)
 
     # https://stackoverflow.com/questions/45328826/django-model-fields-indexing
