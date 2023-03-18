@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models import CheckConstraint, Q, F
 
 
 class BaseModel(models.Model):
@@ -48,6 +49,12 @@ class Event(BaseModel):
     class Meta:
         indexes = [
             models.Index(fields=['calendar','start',]),
+        ]
+        constraints = [
+            CheckConstraint(
+                check = Q(end__gt=F('start')),
+                name = 'end_after_start',
+            ),
         ]
 
     def to_dict(self):
