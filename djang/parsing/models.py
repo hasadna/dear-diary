@@ -13,7 +13,7 @@ class BaseModel(models.Model):
 
 class Calendar(BaseModel):
     resource_id = models.UUIDField(db_index=True, unique=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=300)
     when_created_at_source = models.DateTimeField(null=True)
 
     def to_dict(self):
