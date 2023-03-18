@@ -17,6 +17,12 @@ function setAttributeSingle(name, value) {
 
 let sources = new Set();
 const annotatedSources = {};
+
+function selectColor(number) {
+  const hue = number * 137.508; // use golden angle approximation
+  return `hsl(${hue},50%,75%)`;
+}
+
 async function createLabels(calendarApi) {
     const calendar_list = document.getElementById('calendar-list');
     const request = new Request('/api/calendars/');
@@ -47,7 +53,8 @@ async function createLabels(calendarApi) {
                 calendarApi.addEventSource({
                     id: calendar.id,
                     url: `/api/events/${calendar.id}`,
-                }, );
+                    color: selectColor(calendar.id),
+                });
             } else {
                 const eventSource = calendarApi.getEventSourceById(calendar.id);
                 if (eventSource) {
