@@ -92,7 +92,9 @@ def process_calendar(
 
     # Delete all existing events
     models.Event.objects.filter(calendar=calendar).delete()
+    logger.info(f"process_calendar {resource_id}: deleted foreign events")
     events = (record_to_event(record) for record in records)
+    logger.info(f"process_calendar {resource_id}: before event loop")
     for event in events:
         try:
             event.full_clean()
