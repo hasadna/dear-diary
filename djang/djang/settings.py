@@ -159,3 +159,18 @@ Q_CLUSTER = {
     **(json.loads(os.environ['DJANGO_Q_CLUSTER_SETTINGS_JSON'])
        if os.environ.get('DJANGO_Q_CLUSTER_SETTINGS_JSON') else {})
 }
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}

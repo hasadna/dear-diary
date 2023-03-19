@@ -1,4 +1,5 @@
 import pytz
+import logging
 from typing import NamedTuple
 import requests
 import traceback
@@ -7,6 +8,7 @@ from datetime import datetime
 from .parser import process_calendar
 from ..models import DownloadReport
 
+logger = logging.getLogger(__name__)
 tz = pytz.timezone('Asia/Jerusalem')
 
 class ResourceTuple(NamedTuple):
@@ -71,6 +73,7 @@ def process_resource_impl(resource, website, force):
     ).save()
 
 def process_resource(resource_id, website, force):
+    logger.info("processing resource %s", resource_id)
     resource = get_resource(
         resource_id=resource_id,
         website=website,
