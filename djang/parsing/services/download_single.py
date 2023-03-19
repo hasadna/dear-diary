@@ -54,6 +54,7 @@ def get_package_name(resource, website):
 
 
 def process_resource_impl(resource, website, force):
+    logger.info(f"processing resource {resource}")
     try:
         content = get_resource_content(resource)
         calendar_name = get_package_name(resource, website=website)
@@ -75,7 +76,6 @@ def process_resource_impl(resource, website, force):
 
 
 def process_resource(resource_id, website, force):
-    logger.info("processing resource %s", resource_id)
     resource = get_resource(
         resource_id=resource_id,
         website=website,
