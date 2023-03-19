@@ -6,29 +6,35 @@ from ..models import Calendar, DownloadReport
 
 from django_q.tasks import async_task
 
+
 class defaults:
     website = "https://www.odata.org.il"
     query = "name:יומן"
 
+
 def get_resources(query: str, website: str):
     resource_search = f"{website}/api/3/action/resource_search"
-    res = requests.get(resource_search, params={"query":query})
+    res = requests.get(resource_search, params={"query": query})
     res.raise_for_status()
     j = res.json()
-    results = j['result']['results']
+    results = j["result"]["results"]
     for result in results:
         yield ResourceTuple(
-            id=result['id'],
-            name=result['name'],
+            id=result["id"],
+            name=result["name"],
             # TODO make this timezone aware
-            when_created=datetime.fromisoformat(result['created']),
-            mimetype=result['mimetype'],
-            url=result['url'],
-            package_id=result['package_id'],
+            when_created=datetime.fromisoformat(result["created"]),
+            mimetype=result["mimetype"],
+            url=result["url"],
+            package_id=result["package_id"],
         )
 
-def filter_resource(resource, force:bool) -> bool:
-    if resource.mimetype != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+
+def filter_resource(resource, force: bool) -> bool:
+    if (
+        resource.mimetype
+        != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ):
         return False
 
     if not force and Calendar.objects.filter(resource_id=resource.id).exists():
@@ -36,7 +42,8 @@ def filter_resource(resource, force:bool) -> bool:
 
     return True
 
-def process_resources(query: str, website: str, force: bool, use_q:bool):
+
+def process_resources(query: str, website: str, force: bool, use_q: bool):
     # TODO this should be a separate task when we fully implement this
     resources = get_resources(query, website)
 

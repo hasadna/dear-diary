@@ -6,7 +6,9 @@ from . import models
 admin.site.register(models.Calendar)
 admin.site.register(models.Event)
 
+
 class DownloadReportAdmin(admin.ModelAdmin):
-    list_filter = ('resource_id','status')
+    list_filter = ("resource_id", "status")
+
 
 admin.site.register(models.DownloadReport, DownloadReportAdmin)

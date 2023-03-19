@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 
 from ...services import download_many
 
+
 class Command(BaseCommand):
     help = "Import the calendar names form a package_mapping.json"
 
@@ -30,9 +31,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         download_many.process_resources(
-            query=options['query'],
-            website=options['website'],
-            force=options['force'],
-            use_q=options['use_q'],
+            query=options["query"],
+            website=options["website"],
+            force=options["force"],
+            use_q=options["use_q"],
         )
-

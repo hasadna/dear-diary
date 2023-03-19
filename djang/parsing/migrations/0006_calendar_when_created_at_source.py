@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("parsing", "0005_alter_downloadreport_resource_id"),
     ]

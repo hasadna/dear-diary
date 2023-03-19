@@ -5,14 +5,16 @@ from django.db import transaction
 from django.utils.timezone import make_aware
 import openpyxl
 
-from .. import models 
+from .. import models
 from . import parser2
+
 
 class Record(NamedTuple):
     calendar: models.Calendar
     start: datetime
     end: datetime
     subject: str
+
 
 def record_to_event(record):
     return models.Event(
@@ -22,12 +24,14 @@ def record_to_event(record):
         subject=record.subject,
     )
 
+
 def dict_to_record(d, calendar):
     r = parser2.parse_row(d)
     if not r:
         return None
-    r['calendar']=calendar
+    r["calendar"] = calendar
     return Record(**r)
+
 
 def workbook_to_dict(workbook):
     # Assert there is only one page
@@ -52,12 +56,17 @@ def workbook_to_dict(workbook):
             if val is not None:
                 val = str(val)
 
-
             row_ret[title] = val
         yield row_ret
 
 
-def process_calendar(resource_id: str, calendar_name: str, when_created_at_source: datetime, file_stream: bytes, force:bool):
+def process_calendar(
+    resource_id: str,
+    calendar_name: str,
+    when_created_at_source: datetime,
+    file_stream: bytes,
+    force: bool,
+):
     xlsx = io.BytesIO(file_stream)
     wb = openpyxl.load_workbook(xlsx)
     dicts = list(workbook_to_dict(wb))
@@ -68,24 +77,17 @@ def process_calendar(resource_id: str, calendar_name: str, when_created_at_sourc
     assert created or force, "Calendar with resource_id already exists"
 
     calendar.title = calendar_name
-    calendar.when_created_at_source=when_created_at_source
+    calendar.when_created_at_source = when_created_at_source
     calendar.save()
 
     # Delete all existing events
     models.Event.objects.filter(calendar=calendar).delete()
-    records = [
-        dict_to_record(d, calendar)
-        for d in dicts
-    ]
+    records = [dict_to_record(d, calendar) for d in dicts]
     records = [r for r in records if r]
-    events = [
-        record_to_event(record)
-        for record in records
-    ]
+    events = [record_to_event(record) for record in records]
     for event in events:
         try:
             event.save()
         except Exception as e:
             # TODO log
             pass
-

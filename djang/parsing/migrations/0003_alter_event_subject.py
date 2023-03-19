@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("parsing", "0002_event_parsing_eve_calenda_9d25c6_idx"),
     ]

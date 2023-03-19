@@ -16,13 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from parsing.views import calendar_list, events_feed, HomePageView, DownloadReportListView, DownloadReportDetailView
+from parsing.views import (
+    calendar_list,
+    events_feed,
+    HomePageView,
+    DownloadReportListView,
+    DownloadReportDetailView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", HomePageView.as_view()),
     path("api/calendars/", calendar_list),
     path("api/events/<int:calendar_id>", events_feed),
-    path("download_reports/", DownloadReportListView.as_view(), name="download-reports-list"),
-    path("download_reports/<pk>", DownloadReportDetailView.as_view(), name="download-reports-detail"),
+    path(
+        "download_reports/",
+        DownloadReportListView.as_view(),
+        name="download-reports-list",
+    ),
+    path(
+        "download_reports/<pk>",
+        DownloadReportDetailView.as_view(),
+        name="download-reports-detail",
+    ),
 ]

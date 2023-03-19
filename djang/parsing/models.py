@@ -30,6 +30,7 @@ class DownloadReport(BaseModel):
     """
     Reporting on a download attempt
     """
+
     resource_id = models.UUIDField(db_index=True)
     status = models.CharField(max_length=15)
     detail = models.TextField(null=True)
@@ -48,12 +49,17 @@ class Event(BaseModel):
     # https://stackoverflow.com/questions/45328826/django-model-fields-indexing
     class Meta:
         indexes = [
-            models.Index(fields=['calendar','start',]),
+            models.Index(
+                fields=[
+                    "calendar",
+                    "start",
+                ]
+            ),
         ]
         constraints = [
             CheckConstraint(
-                check = Q(end__gt=F('start')),
-                name = 'end_after_start',
+                check=Q(end__gt=F("start")),
+                name="end_after_start",
             ),
         ]
 

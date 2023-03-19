@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 
 from ...services import download_single
 
+
 class Command(BaseCommand):
     help = "Import the calendar names form a package_mapping.json"
 
@@ -12,10 +13,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "resource_id",
         )
-        parser.add_argument(
-            "--website",
-            default="https://www.odata.org.il"
-        )
+        parser.add_argument("--website", default="https://www.odata.org.il")
         parser.add_argument(
             "--force",
             action="store_true",
@@ -24,7 +22,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         download_single.process_resource(
-            resource_id=options['resource_id'],
-            website=options['website'],
-            force=options['force'],
+            resource_id=options["resource_id"],
+            website=options["website"],
+            force=options["force"],
         )

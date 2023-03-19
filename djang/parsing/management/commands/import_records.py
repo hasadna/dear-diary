@@ -8,17 +8,19 @@ from parsing.services import importer
 
 from parsing import models
 
-from datetime import datetime,timezone
+from datetime import datetime, timezone
+
 
 def parse_date(s):
     return datetime.fromtimestamp(s, timezone.utc)
 
-def handle_single_record(record, force:bool):
+
+def handle_single_record(record, force: bool):
     # XXX typo in generator
-    resource_id = record['reource_id']
-    start = parse_date(record['start'])
-    end = parse_date(record['end'])
-    subject = record['subject']
+    resource_id = record["reource_id"]
+    start = parse_date(record["start"])
+    end = parse_date(record["end"])
+    subject = record["subject"]
     calendar = models.Calendar.objects.get(resource_id=resource_id)
     models.Event.objects.get_or_create(
         calendar=calendar,
@@ -26,6 +28,7 @@ def handle_single_record(record, force:bool):
         end=end,
         subject=subject,
     )
+
 
 class Command(BaseCommand):
     help = "Import the calendar events from records.json"
@@ -38,12 +41,12 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "filename",
-            type=argparse.FileType('r'),
+            type=argparse.FileType("r"),
         )
 
     def handle(self, *args, **options):
-        file = options['filename']
-        force = options['force']
+        file = options["filename"]
+        force = options["force"]
         for row in file:
             struct = json.loads(row)
-            handle_single_record(struct,force=force)
+            handle_single_record(struct, force=force)
