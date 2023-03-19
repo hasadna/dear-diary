@@ -1,3 +1,4 @@
+import pytz
 from typing import NamedTuple
 import requests
 import traceback
@@ -5,6 +6,8 @@ from datetime import datetime
 
 from .parser import process_calendar
 from ..models import DownloadReport
+
+tz = pytz.timezone('Asia/Jerusalem')
 
 class ResourceTuple(NamedTuple):
     id: str
@@ -23,8 +26,7 @@ def get_resource(resource_id: str, website:str):
     return ResourceTuple(
         id=resource_id,
         name=result['name'],
-        # TODO make this timezone aware
-        when_created=datetime.fromisoformat(result['created']),
+        when_created=datetime.fromisoformat(result['created']).replace(tzinfo=tz),
         mimetype=result['mimetype'],
         url=result['url'],
         package_id=result['package_id'],
