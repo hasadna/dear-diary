@@ -71,8 +71,10 @@ def process_calendar(
     file_stream: bytes,
     force: bool,
 ):
+    logger.info(f"process_calendar {resource_id}: started")
     xlsx = io.BytesIO(file_stream)
     wb = openpyxl.load_workbook(xlsx)
+    logger.info(f"process_calendar {resource_id}: loaded workbook")
     dicts = workbook_to_dict(wb)
     records = (dict_to_record(d, calendar) for d in dicts)
     records = (r for r in records if r)
@@ -80,9 +82,13 @@ def process_calendar(
     calendar, created = models.Calendar.objects.get_or_create(resource_id=resource_id)
     assert created or force, "Calendar with resource_id already exists"
 
+    logger.info(f"process_calendar {resource_id}: located calendar resource")
+
     calendar.title = calendar_name
     calendar.when_created_at_source = when_created_at_source
     calendar.save()
+
+    logger.info(f"process_calendar {resource_id}: saved calendar")
 
     # Delete all existing events
     models.Event.objects.filter(calendar=calendar).delete()
@@ -90,5 +96,6 @@ def process_calendar(
     for event in events:
         try:
             event.save()
+            logger.info(f"process_calendar {resource_id}: saved event {event.subject}")
         except Exception as e:
-            logger.exception()
+            logger.exception(f"resource {resource_id}, event {event.subject}")
