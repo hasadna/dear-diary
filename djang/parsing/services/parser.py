@@ -68,7 +68,7 @@ def process_calendar(
     force: bool,
 ):
     xlsx = io.BytesIO(file_stream)
-    wb = openpyxl.load_workbook(xlsx)
+    wb = openpyxl.load_workbook(xlsx, read_only=True, data_only=True)
     dicts = list(workbook_to_dict(wb))
     if not dicts:
         return
