@@ -1,4 +1,5 @@
 import io
+import logging
 from typing import Dict, NamedTuple
 from datetime import datetime
 from django.db import transaction
@@ -7,6 +8,8 @@ import openpyxl
 
 from .. import models
 from . import parser2
+
+logger = logging.getLogger(__name__)
 
 
 class Record(NamedTuple):
@@ -60,6 +63,7 @@ def workbook_to_dict(workbook):
         yield row_ret
 
 
+@transaction.atomic
 def process_calendar(
     resource_id: str,
     calendar_name: str,
@@ -68,10 +72,10 @@ def process_calendar(
     force: bool,
 ):
     xlsx = io.BytesIO(file_stream)
-    wb = openpyxl.load_workbook(xlsx, read_only=True, data_only=True)
-    dicts = list(workbook_to_dict(wb))
-    if not dicts:
-        return
+    wb = openpyxl.load_workbook(xlsx)
+    dicts = workbook_to_dict(wb)
+    records = (dict_to_record(d, calendar) for d in dicts)
+    records = (r for r in records if r)
 
     calendar, created = models.Calendar.objects.get_or_create(resource_id=resource_id)
     assert created or force, "Calendar with resource_id already exists"
@@ -82,12 +86,9 @@ def process_calendar(
 
     # Delete all existing events
     models.Event.objects.filter(calendar=calendar).delete()
-    records = [dict_to_record(d, calendar) for d in dicts]
-    records = [r for r in records if r]
-    events = [record_to_event(record) for record in records]
+    events = (record_to_event(record) for record in records)
     for event in events:
         try:
             event.save()
         except Exception as e:
-            # TODO log
-            pass
+            logger.exception()
