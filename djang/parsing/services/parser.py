@@ -104,13 +104,11 @@ def process_calendar(
     for event in events:
         got_events = True
         try:
-            logger.info(f"resource {resource_id}, event {event.subject}, before validation")
             event.full_clean()
         except ValidationError as e:
             logger.exception(f"resource {resource_id}, event {event.subject}")
         else:
             event.save(force_insert=True)
-            logger.info(f"resource {resource_id}, event {event.subject}: Saved")
 
     if not got_events:
         logger.info(f"resource {resource_id}, no events found")
