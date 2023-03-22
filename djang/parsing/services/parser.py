@@ -94,6 +94,7 @@ def process_calendar(
     if not created:
         models.Event.objects.filter(calendar=calendar).delete()
         logger.info(f"process_calendar {resource_id}: deleted foreign events")
+
     events = (record_to_event(record) for record in records)
     logger.info(f"process_calendar {resource_id}: before event loop")
     got_events = False
@@ -105,6 +106,7 @@ def process_calendar(
             logger.exception(f"resource {resource_id}, event {event.subject}")
         else:
             event.save()
+            logger.info(f"resource {resource_id}, event {event.subject}: Saved")
 
     if not got_events:
         raise Exception("No events in calendar, forcing rollback")
