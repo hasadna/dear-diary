@@ -50,6 +50,8 @@ def workbook_to_dict(workbook):
     for row in sheet.iter_rows(min_row=2):
         row_ret = {}
         for cell in row:
+            if cell.value is None:
+                continue
             i = cell.column - 1
             title = first_row[i].value
             if not title:
