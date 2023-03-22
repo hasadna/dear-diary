@@ -109,4 +109,5 @@ def process_calendar(
             logger.info(f"resource {resource_id}, event {event.subject}: Saved")
 
     if not got_events:
+        logger.info(f"resource {resource_id}, no events found")
         raise Exception("No events in calendar, forcing rollback")
