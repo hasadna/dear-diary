@@ -96,10 +96,15 @@ def process_calendar(
         logger.info(f"process_calendar {resource_id}: deleted foreign events")
     events = (record_to_event(record) for record in records)
     logger.info(f"process_calendar {resource_id}: before event loop")
+    got_events = False
     for event in events:
+        got_events = True
         try:
             event.full_clean()
         except ValidationError as e:
             logger.exception(f"resource {resource_id}, event {event.subject}")
         else:
             event.save()
+
+    if not got_events:
+        raise Exception("No events in calendar, forcing rollback")
