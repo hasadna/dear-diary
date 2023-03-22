@@ -68,6 +68,7 @@ def process_resource_impl(resource, website, force):
     except Exception as e:
         status = "Exception"
         detail = traceback.format_exc()
+        logger.exception(f"resource {resource}")
     else:
         status = "Success"
         detail = None
