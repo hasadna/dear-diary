@@ -44,7 +44,7 @@ class Event(BaseModel):
     start = models.DateTimeField()
     end = models.DateTimeField()
     subject = models.CharField(max_length=600)
-    location = models.CharField(max_length=50, null=True)
+    location = models.CharField(max_length=50, null=True, blank=True)
 
     # https://stackoverflow.com/questions/45328826/django-model-fields-indexing
     class Meta:
