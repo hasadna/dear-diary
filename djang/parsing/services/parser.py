@@ -103,7 +103,7 @@ def process_calendar(
         try:
             logger.info(f"resource {resource_id}, event {event.subject}, before validation")
             event.full_clean()
-        except ValidationError as e:
+        except Exception as e:
             logger.exception(f"resource {resource_id}, event {event.subject}")
             logger.info(f"resource {resource_id}, event {event.subject}, Exception {e}")
         else:
