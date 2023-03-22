@@ -73,7 +73,7 @@ def process_calendar(
 ):
     logger.info(f"process_calendar {resource_id}: started")
     xlsx = io.BytesIO(file_stream)
-    wb = openpyxl.load_workbook(xlsx)
+    wb = openpyxl.load_workbook(xlsx, read_only=True, data_only=True)
     logger.info(f"process_calendar {resource_id}: loaded workbook")
     dicts = workbook_to_dict(wb)
     records = (dict_to_record(d, calendar) for d in dicts)
