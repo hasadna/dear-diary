@@ -95,7 +95,8 @@ def process_calendar(
     events = (record_to_event(record) for record in records)
     for event in events:
         try:
-            event.save()
-            logger.info(f"process_calendar {resource_id}: saved event {event.subject}")
-        except Exception as e:
+            event.full_clean()
+        except ValidationError as e:
             logger.exception(f"resource {resource_id}, event {event.subject}")
+        else:
+            event.save()
