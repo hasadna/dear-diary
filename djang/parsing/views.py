@@ -65,3 +65,6 @@ class DownloadReportListView(ListView):
 
 class DownloadReportDetailView(DetailView):
     model = DownloadReport
+
+class CalendarDetailView(DetailView):
+    model = Calendar

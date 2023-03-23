@@ -22,6 +22,7 @@ from parsing.views import (
     HomePageView,
     DownloadReportListView,
     DownloadReportDetailView,
+    CalendarDetailView,
 )
 
 urlpatterns = [
@@ -38,5 +39,10 @@ urlpatterns = [
         "download_reports/<pk>",
         DownloadReportDetailView.as_view(),
         name="download-reports-detail",
+    ),
+    path(
+        "calendars/<pk>",
+        CalendarDetailView.as_view(),
+        name="calendar-view",
     ),
 ]

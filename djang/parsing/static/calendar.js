@@ -131,7 +131,9 @@ document.addEventListener('DOMContentLoaded', async function() {
       document.getElementById('modalEnd').innerText=`${end.toLocaleDateString()} ${end.toLocaleTimeString()}`;
 
       
-      document.getElementById('modalCalendar').innerText=annotatedSources[info.event.source.id];
+      const modalCalendar = document.getElementById('modalCalendar');
+      modalCalendar.innerText=annotatedSources[info.event.source.id];
+      modalCalendar.href = `/calendars/${info.event.source.id}`;
 
       modal.show();
     });
