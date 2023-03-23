@@ -13,6 +13,7 @@ class BaseModel(models.Model):
 
 class Calendar(BaseModel):
     resource_id = models.UUIDField(db_index=True, unique=True)
+    package_id = models.UUIDField(null=True)
     title = models.CharField(max_length=300)
     when_created_at_source = models.DateTimeField(null=True)
 
