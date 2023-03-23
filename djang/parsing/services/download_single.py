@@ -60,6 +60,7 @@ def process_resource_impl(resource, website, force):
         calendar_name = get_package_name(resource, website=website)
         process_calendar(
             resource_id=resource.id,
+            package_id=resource.package_id,
             calendar_name=calendar_name,
             when_created_at_source=resource.when_created,
             file_stream=content,

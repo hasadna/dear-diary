@@ -69,6 +69,7 @@ def workbook_to_dict(workbook):
 @transaction.atomic
 def process_calendar(
     resource_id: str,
+    package_id: str,
     calendar_name: str,
     when_created_at_source: datetime,
     file_stream: bytes,
@@ -82,6 +83,8 @@ def process_calendar(
 
     calendar, created = models.Calendar.objects.get_or_create(resource_id=resource_id)
     assert created or force, "Calendar with resource_id already exists"
+
+    calendar.package_id = package_id
 
     logger.info(f"process_calendar {resource_id}: located calendar resource")
 

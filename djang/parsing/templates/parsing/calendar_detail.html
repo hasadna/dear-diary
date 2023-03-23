@@ -29,7 +29,13 @@
         </tr>
         <tr>
           <th scope="row">Resource ID</th>
-          <td><a href="#">{{ calendar.resource_id }}<a/></td>
+          <td>
+            {% if calendar.get_view_url %}
+            <a href="{{ calendar.get_view_url }}">{{ calendar.resource_id }}</a>
+            {% else %}
+              No link available
+            {% endif %}
+          </td>
         </tr>
       </tbody>
     </table>

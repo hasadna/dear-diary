@@ -26,6 +26,11 @@ class Calendar(BaseModel):
     def __str__(self):
         return f"{self.title} ({self.resource_id})"
 
+    def get_view_url(self):
+        if self.package_id:
+            return f"https://www.odata.org.il/dataset/{self.package_id}/resource/{self.resource_id}"
+        return None
+
 
 class DownloadReport(BaseModel):
     """
