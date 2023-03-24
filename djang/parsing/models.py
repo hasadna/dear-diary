@@ -13,7 +13,7 @@ class BaseModel(models.Model):
 
 class Calendar(BaseModel):
     resource_id = models.UUIDField(db_index=True, unique=True)
-    package_id = models.UUIDField(null=True)
+    package_id = models.UUIDField()
     title = models.CharField(max_length=300)
     when_created_at_source = models.DateTimeField(null=True)
 
@@ -27,9 +27,7 @@ class Calendar(BaseModel):
         return f"{self.title} ({self.resource_id})"
 
     def get_view_url(self):
-        if self.package_id:
-            return f"https://www.odata.org.il/dataset/{self.package_id}/resource/{self.resource_id}"
-        return None
+        return f"https://www.odata.org.il/dataset/{self.package_id}/resource/{self.resource_id}"
 
 
 class DownloadReport(BaseModel):
