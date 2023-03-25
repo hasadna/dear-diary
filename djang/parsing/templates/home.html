@@ -20,8 +20,6 @@
     <div class="d-flex" id="wrapper">
       <!-- Sidebar-->
       <div class="border-end bg-white" id="sidebar-wrapper" style="height:100%;overflow:auto">
-        <div class="sidebar-heading border-bottom bg-light">Start Bootstrap
-        </div>
         <input type="text" id="aaaa" placeholder="{% translate "filter" %}" class="list-group-item list-group-item-action list-group-item-light p-3" oninput="filterCalendars(this.value)"/>
         <div id="calendar-list" class="list-group list-group-flush">
         </div>
@@ -70,8 +68,6 @@
         <!-- Top navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
           <div class="container-fluid">
-            <button class="btn btn-primary" id="sidebarToggle">Toggle Menu
-            </button>
             <select id="view" onchange="changeView(this.value)">
               <option value="month">{% translate "Month" %}
               </option>
