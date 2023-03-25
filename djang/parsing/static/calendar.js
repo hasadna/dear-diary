@@ -85,11 +85,20 @@ function updateSourceAttributes() {
 }
 
 
+// https://stackoverflow.com/a/68765459
+function checkForCookie(name) {
+    let cookieString = document.cookie.match(name + '=[^;]+')
+    return cookieString ? cookieString[0].split('=')[1] : cookieString
+}
+
 let calendar;
 document.addEventListener('DOMContentLoaded', async function() {
     const calendarEl = document.getElementById('calendar');
+    const lang = checkForCookie("django_language");
     calendar = new FullCalendar.Calendar(calendarEl, {
         themeSystem: 'bootstrap5',
+        locale: checkForCookie("django_language"),
+        direction: (lang == "he") ? 'rtl' : 'ltr',
     });
     const attrs = getAttributes();
     const initialView = attrs.get('view') || 'dayGridMonth';
