@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.i18n import i18n_patterns
 
 from parsing.views import (
     calendar_list,
@@ -26,10 +27,11 @@ from parsing.views import (
     AboutView,
 )
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("about/", AboutView.as_view()),
+urlpatterns = i18n_patterns(
     path("", HomePageView.as_view()),
+    path("about/", AboutView.as_view()),
+) + [
+    path("admin/", admin.site.urls),
     path("api/calendars/", calendar_list),
     path("api/events/<int:calendar_id>", events_feed),
     path(
@@ -47,4 +49,5 @@ urlpatterns = [
         CalendarDetailView.as_view(),
         name="calendar-view",
     ),
+
 ]

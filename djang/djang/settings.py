@@ -67,6 +67,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "djang.urls"
@@ -141,6 +142,11 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Jerusalem"
 
 USE_I18N = True
+
+LANGUAGES = [
+    ('he', 'Hebrew'),
+    ('en', 'English'),
+]
 
 USE_TZ = True
 
