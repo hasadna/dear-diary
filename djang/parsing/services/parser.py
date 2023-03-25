@@ -81,13 +81,17 @@ def process_calendar(
     dicts = workbook_to_dict(wb)
     logger.info(f"process_calendar {resource_id}: loaded workbook")
 
-    calendar, created = models.Calendar.objects.get_or_create(resource_id=resource_id)
-    assert created or force, "Calendar with resource_id already exists"
-
-    calendar.package_id = package_id
+    try:
+        calendar = models.Calendar.objects.get(resource_id=resource_id)
+        created = False
+        assert force, "Calendar with resource_id already exists"
+    except models.Calendar.DoesNotExist:
+        calendar = models.Calendar(resource_id=resource_id)
+        created = True
 
     logger.info(f"process_calendar {resource_id}: located calendar resource")
 
+    calendar.package_id = package_id
     calendar.title = calendar_name
     calendar.when_created_at_source = when_created_at_source
     calendar.save()
