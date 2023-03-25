@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-25 23:40+0300\n"
+"POT-Creation-Date: 2023-03-25 23:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
 "1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+
 #: templates/home.html:25
 msgid "filter"
 msgstr "סינון"
+
+#: templates/home.html:42
+msgid "Location"
+msgstr "מיקום"
+
+#: templates/home.html:46
+msgid "Start"
+msgstr "התחלה"
+
+#: templates/home.html:50
+msgid "End"
+msgstr "סיום"
+
+#: templates/home.html:54
+msgid "Calendar"
+msgstr "יומן"
+
+#: templates/home.html:76
+msgid "Month"
+msgstr "חודש"
+
+#: templates/home.html:78
+msgid "Week"
+msgstr "שבוע"
+
+#: templates/home.html:80
+msgid "Day"
+msgstr "יום"
+
+#: templates/home.html:107
+msgid "About"
+msgstr "אודות"
+
+#: templates/home.html:112
+msgid "Hasadna"
+msgstr "הסדנה"

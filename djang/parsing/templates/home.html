@@ -39,19 +39,19 @@
               <table class="table">
                 <tbody>
                   <tr>
-                    <th scope="row">Location</th>
+                    <th scope="row">{% translate "Location" %}</th>
                     <td id="modalLocation"></td>
                   </tr>
                   <tr>
-                    <th scope="row">Start</th>
+                    <th scope="row">{% translate "Start" %}</th>
                     <td id="modalStart"></td>
                   </tr>
                   <tr>
-                    <th scope="row">End</th>
+                    <th scope="row">{% translate "End" %}</th>
                     <td id="modalEnd"></td>
                   </tr>
                   <tr>
-                    <th scope="row">Calendar</th>
+                    <th scope="row">{% translate "Calendar" %}</th>
                     <td>
                       <a target="_blank" id="modalCalendar" href="#"></a>
                     </td>
@@ -73,11 +73,11 @@
             <button class="btn btn-primary" id="sidebarToggle">Toggle Menu
             </button>
             <select id="view" onchange="changeView(this.value)">
-              <option value="month">Month
+              <option value="month">{% translate "Month" %}
               </option>
-              <option value="week">Week
+              <option value="week">{% translate "Week" %}
               </option>
-              <option value="day">Day
+              <option value="day">{% translate "Day" %}
               </option>
             </select>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,12 +104,12 @@
 
                 <li class="nav-item">
                   <a class="nav-link" target="_blank" href="/about/">
-                    About
+                    {% translate "About" %}
                   </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" target="_blank" href="https://www.hasadna.org.il/">
-                    Hasadna
+                    {% translate "Hasadna" %}
                   </a>
                 </li>
               </ul>
