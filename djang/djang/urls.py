@@ -23,10 +23,12 @@ from parsing.views import (
     DownloadReportListView,
     DownloadReportDetailView,
     CalendarDetailView,
+    AboutView,
 )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("about/", AboutView.as_view()),
     path("", HomePageView.as_view()),
     path("api/calendars/", calendar_list),
     path("api/events/<int:calendar_id>", events_feed),

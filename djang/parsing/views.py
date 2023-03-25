@@ -42,6 +42,8 @@ def events_feed(request, calendar_id):
 class HomePageView(TemplateView):
     template_name = "home.html"
 
+class AboutView(TemplateView):
+    template_name = "about.html"
 
 class DownloadReportListView(ListView):
     model = DownloadReport
