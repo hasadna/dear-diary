@@ -1,4 +1,4 @@
-.PHONY: init freeze makemigrations serve lint
+.PHONY: init freeze makemigrations serve lint translate
 
 init:
 	virtualenv venv
@@ -15,3 +15,7 @@ serve:
 
 lint:
 	black .
+
+translate:
+	cd djang/parsing && ../../venv/bin/python ../manage.py makemessages -l he
+	cd djang/parsing && ../../venv/bin/python ../manage.py compilemessages -l he
