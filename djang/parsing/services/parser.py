@@ -9,6 +9,7 @@ import openpyxl
 
 from .. import models
 from . import parser2
+from .parser2 import TIMEZONE
 
 logger = logging.getLogger(__name__)
 
@@ -23,8 +24,8 @@ class Record(NamedTuple):
 def record_to_event(record):
     return models.Event(
         calendar=record.calendar,
-        start=make_aware(datetime.fromtimestamp(record.start)),
-        end=make_aware(datetime.fromtimestamp(record.end)),
+        start=datetime.fromtimestamp(record.start).astimezone(TIMEZONE),
+        end=datetime.fromtimestamp(record.end).astimezone(TIMEZONE),
         subject=record.subject,
     )
 

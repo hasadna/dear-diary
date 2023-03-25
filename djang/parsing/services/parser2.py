@@ -4,10 +4,11 @@ from dateutil import parser as dateutil_parser
 import json
 import re
 import sys
+import pytz
 
 from datetime import datetime, date
-import locale
 
+TIMEZONE = pytz.timezone("Asia/Jerusalem")
 
 class ColumnFinder:
     @staticmethod
@@ -125,6 +126,7 @@ class ColumnParser:
         parse = dateutil_parser.parse(s)
         if not parse:
             return None
+        parse = TIMEZONE.localize(parse)
         return parse.timestamp()
 
     @classmethod
