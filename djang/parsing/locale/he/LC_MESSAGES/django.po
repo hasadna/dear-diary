@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-26 11:45+0300\n"
+"POT-Creation-Date: 2023-03-26 14:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,9 +31,12 @@ msgid ""
 "    You can look at what your civic servants are doing, and ensure they're "
 "keeping busy serving the public.\n"
 "      "
-msgstr "\n"
-"אנחנו מנתחים קבצי אקסל (וסוגים אחרים) שמכילים יומנים מנחברי ציבור ומשרתי ציבור, ומציגים אותם על יומן אחוד.<br/>\n"
-"בעזרת הכל הזה אפשר להסתכל על מה הנבחרים עושים, ולוודא שהם אכן עוסקים בלשרת את הציבור"
+msgstr ""
+"\n"
+"אנחנו מנתחים קבצי אקסל (וסוגים אחרים) שמכילים יומנים מנחברי ציבור ומשרתי "
+"ציבור, ומציגים אותם על יומן אחוד.<br/>\n"
+"בעזרת הכל הזה אפשר להסתכל על מה הנבחרים עושים, ולוודא שהם אכן עוסקים בלשרת "
+"את הציבור"
 
 #: templates/about.html:17
 msgid "Fed by FOIA requests"
@@ -95,11 +98,11 @@ msgstr "סינון"
 msgid "Location"
 msgstr "מיקום"
 
-#: templates/home.html:33
+#: templates/home.html:33 templates/parsing/calendar_detail.html:12
 msgid "Start"
 msgstr "התחלה"
 
-#: templates/home.html:37
+#: templates/home.html:37 templates/parsing/calendar_detail.html:20
 msgid "End"
 msgstr "סיום"
 
@@ -134,3 +137,19 @@ msgstr "אודות"
 #: templates/home.html:99
 msgid "Hasadna"
 msgstr "הסדנה"
+
+#: templates/parsing/calendar_detail.html:8
+msgid "Name"
+msgstr "שם"
+
+#: templates/parsing/calendar_detail.html:28
+msgid "When created"
+msgstr "תאריך יצירה"
+
+#: templates/parsing/calendar_detail.html:32
+msgid "When created at source"
+msgstr "תאריך יצירה במקור"
+
+#: templates/parsing/calendar_detail.html:36
+msgid "Resource ID"
+msgstr "מזהה משאב"
