@@ -31,6 +31,12 @@ venv/bin/python djang/manage.py dowenload 'RESOURCE-ID'
 ```
 Add `--force` to overwrite an existing calendar
 
+## Translate
+```
+make translate
+```
+Check the generated `po` files, then run `make translate` again to compile them into `mo` files which are used by the app
+
 ## Docker Compose development
 
 This environment resembles the production environment as closely as possible.
