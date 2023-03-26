@@ -27,7 +27,7 @@ from parsing.views import (
 )
 
 urlpatterns = [
-    path("", HomePageView.as_view()),
+    path("", HomePageView.as_view(), name="home"),
     path("about/", AboutView.as_view()),
     path('i18n/', include('django.conf.urls.i18n')),
     path("admin/", admin.site.urls),

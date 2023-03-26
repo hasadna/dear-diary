@@ -70,3 +70,10 @@ class DownloadReportDetailView(DetailView):
 
 class CalendarDetailView(DetailView):
     model = Calendar
+
+    def get_context_data(self, **kwargs):
+        ret = super().get_context_data(**kwargs)
+        calendar = ret['calendar']
+        ret['start_url'] = calendar.get_calendar_url(calendar.get_start())
+        ret['end_url'] = calendar.get_calendar_url(calendar.get_end())
+        return ret

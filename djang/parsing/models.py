@@ -2,6 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.db.models import CheckConstraint, Q, F
 
+from urllib.parse import urlencode
+from django.urls import reverse
+
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
@@ -17,6 +20,18 @@ class Calendar(BaseModel):
     title = models.CharField(max_length=300)
     when_created_at_source = models.DateTimeField(null=True)
 
+    def get_start(self):
+        event = self.event_set.order_by('start').first()
+        if not event:
+            return None
+        return event.start
+
+    def get_end(self):
+        event = self.event_set.order_by('-end').first()
+        if not event:
+            return None
+        return event.end
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -28,6 +43,20 @@ class Calendar(BaseModel):
 
     def get_view_url(self):
         return f"https://www.odata.org.il/dataset/{self.package_id}/resource/{self.resource_id}"
+
+    def get_calendar_url(self, when=None):
+        # TODO unfinished
+        base_url = reverse("home")
+        # Add fragments
+        fragments = {
+            "sources": self.id,
+        }
+        if when:
+            fragments['date'] = when.strftime('%Y-%m-%d')
+        url_fragment = urlencode(fragments)
+
+        return f"{base_url}#{url_fragment}"
+
 
 
 class DownloadReport(BaseModel):

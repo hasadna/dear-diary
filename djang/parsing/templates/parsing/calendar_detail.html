@@ -20,6 +20,22 @@
           <td>{{ calendar.title }}</td>
         </tr>
         <tr>
+          <th scope="row">Start</th>
+          <td>
+            <a href="{{ start_url }}">
+              {{ calendar.get_start }}
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">End</th>
+          <td>
+            <a href="{{ end_url }}">
+              {{ calendar.get_end }}
+            </a>
+          </td>
+        </tr>
+        <tr>
           <th scope="row">When created</th>
           <td>{{ calendar.created_at }}</td>
         </tr>
