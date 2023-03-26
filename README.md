@@ -18,13 +18,18 @@ make init
 make serve
 ```
 
-## Importing
-Importing premade data from dear-diary-basic
+## Downloading calendars
+Download and parse all calendars sequentially:
 ```
-rm -r djang/parsing/migrations djang/db.sqlite3 && make makemigrations 
-venv/bin/python djang/manage.py import_calendars ~/projects/open-workshop/dear-diary-basic/output/calendar_names.json
-venv/bin/python djang/manage.py import_records ~/projects/open-workshop/dear-diary-basic/output/records.json
+venv/bin/python djang/manage.py dowenload_all
 ```
+add `--use-q` if you want to utilize django-q (requires a worker process runnning).  
+
+Download a specific calendar:
+```
+venv/bin/python djang/manage.py dowenload 'RESOURCE-ID'
+```
+Add `--force` to overwrite an existing calendar
 
 ## Docker Compose development
 
