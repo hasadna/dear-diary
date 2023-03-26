@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-26 00:02+0300\n"
+"POT-Creation-Date: 2023-03-26 11:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,50 +19,118 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
 "1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
-#: templates/home.html:23
+#: templates/about.html:8
+msgid "What are your elected officials up to?"
+msgstr "מה נבחרי הציבור שלך עושים?"
+
+#: templates/about.html:9
+msgid ""
+"\n"
+"      We parse Excel (and other) files that contain calendar / diary data "
+"from public officials, and display them as an online calendar.<br />\n"
+"    You can look at what your civic servants are doing, and ensure they're "
+"keeping busy serving the public.\n"
+"      "
+msgstr "\n"
+"אנחנו מנתחים קבצי אקסל (וסוגים אחרים) שמכילים יומנים מנחברי ציבור ומשרתי ציבור, ומציגים אותם על יומן אחוד.<br/>\n"
+"בעזרת הכל הזה אפשר להסתכל על מה הנבחרים עושים, ולוודא שהם אכן עוסקים בלשרת את הציבור"
+
+#: templates/about.html:17
+msgid "Fed by FOIA requests"
+msgstr "ניזון מבקשות חופש מידע"
+
+#: templates/about.html:20
+msgid ""
+"\n"
+"        Our data source is hunderds of calendars / diaries that are released "
+"by ministries, municipalities and other civil servants in response to "
+"Israeli Freedom Of Information Act requests.\n"
+"        "
+msgstr ""
+"\n"
+"מקור המידע שלנו הוא מאות בקשות חופש המידע לחשיפת יומנים על ידי הרשויות."
+
+#: templates/about.html:25
+msgid "Browse the files"
+msgstr "לעיון בקבצים"
+
+#: templates/about.html:31
+msgid "Accepting Contributions"
+msgstr "נשמח לעזרה"
+
+#: templates/about.html:34
+msgid ""
+"\n"
+"        Parsing those files is hard, and we can definately use your help.\n"
+"        "
+msgstr ""
+"\n"
+"לנתח קבצי אקסל זה קשה, ונשמח לעזרתכם"
+
+#: templates/about.html:39
+msgid "View the code"
+msgstr "לקוד"
+
+#: templates/about.html:45
+msgid "Get Tabular Data"
+msgstr "הצגה כטבלה"
+
+#: templates/about.html:47
+msgid ""
+"To do some serious investigative work, the raw data on this website is "
+"available on our Redash instance under \"dear-diary\""
+msgstr ""
+"בשביל עבודת חקר רצינית, המידע שמוצג באתר זמין גם בשרת הRedash של הסדנה, תחת "
+"\"dear diary\""
+
+#: templates/about.html:50
+msgid "Access Hasadna's Redash"
+msgstr "לRedash של הסדנה"
+
+#: templates/home.html:12
 msgid "filter"
 msgstr "סינון"
 
-#: templates/home.html:40
+#: templates/home.html:29
 msgid "Location"
 msgstr "מיקום"
 
-#: templates/home.html:44
+#: templates/home.html:33
 msgid "Start"
 msgstr "התחלה"
 
-#: templates/home.html:48
+#: templates/home.html:37
 msgid "End"
 msgstr "סיום"
 
-#: templates/home.html:52
+#: templates/home.html:41
 msgid "Calendar"
 msgstr "יומן"
 
-#: templates/home.html:71
+#: templates/home.html:60
 msgid "Display"
 msgstr "תצוגה"
 
-#: templates/home.html:73
+#: templates/home.html:62
 msgid "Month"
 msgstr "חודש"
 
-#: templates/home.html:75
+#: templates/home.html:64
 msgid "Week"
 msgstr "שבוע"
 
-#: templates/home.html:77
+#: templates/home.html:66
 msgid "Day"
 msgstr "יום"
 
-#: templates/home.html:85
+#: templates/home.html:74
 msgid "Language"
 msgstr "שפה"
 
-#: templates/home.html:105
+#: templates/home.html:94
 msgid "About"
 msgstr "אודות"
 
-#: templates/home.html:110
+#: templates/home.html:99
 msgid "Hasadna"
 msgstr "הסדנה"

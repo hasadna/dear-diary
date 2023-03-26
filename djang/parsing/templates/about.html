@@ -1,43 +1,53 @@
 {% extends "bare.html" %}
+{% load i18n %}
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 {% endblock %}
 {% block body %}
     <div class="container px-4 py-5" id="featured-3">
-    <h2 class="pb-2 border-bottom">What are your elected officials up to?</h2>
-    We parse Excel (and other) files that contain calendar / diary data from public officials, and display them as an online calendar.<br />
+      <h2 class="pb-2 border-bottom">{%blocktranslate%}What are your elected officials up to?{%endblocktranslate%}</h2>
+      {% blocktranslate %}
+      We parse Excel (and other) files that contain calendar / diary data from public officials, and display them as an online calendar.<br />
     You can look at what your civic servants are doing, and ensure they're keeping busy serving the public.
+      {% endblocktranslate %}
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
       <div class="feature col">
         <h3 class="fs-2">
           <i class="fa-regular fa-calendar"></i>
-          Fed by FOIA requests
+          {% translate "Fed by FOIA requests" %}
         </h3>
-        <p>Our data source is hunderds of calendars / diaries that are released by ministries, municipalities and other civil servants in response to Israeli Freedom Of Information Act requests.
+        <p>
+        {%blocktranslate%}
+        Our data source is hunderds of calendars / diaries that are released by ministries, municipalities and other civil servants in response to Israeli Freedom Of Information Act requests.
+        {%endblocktranslate%}
         </p>
         <a href="https://www.odata.org.il/" class="icon-link">
-          Browse the files
+          {% translate "Browse the files" %}
         </a>
       </div>
       <div class="feature col">
         <h3 class="fs-2">
           <i class="fa-brands fa-github"></i>
-          Accepting Contributions
+          {% translate "Accepting Contributions" %}
         </h3>
-        <p>Parsing those files is hard, and we can definately use your help.</p>
+        <p>
+        {%blocktranslate%}
+        Parsing those files is hard, and we can definately use your help.
+        {%endblocktranslate%}
+        </p>
         <a href="https://github.com/hasadna/dear-diary/" class="icon-link">
-          View the code
+          {% translate "View the code" %}
         </a>
       </div>
       <div class="feature col">
         <h3 class="fs-2">
           <i class="fa-solid fa-table"></i>
-          Get Tabular Data
+          {% translate "Get Tabular Data" %}
         </h3>
-        <p>To do some serious investigative work, the raw data on this website is available on our Redash instance under "dear-diary".
+        <p>{% blocktranslate %}To do some serious investigative work, the raw data on this website is available on our Redash instance under "dear-diary"{% endblocktranslate %}.
         </p>
         <a href="https://redash.hasadna.org.il/" class="icon-link">
-          Access Hasadna's Redash
+          {% translate "Access Hasadna's Redash" %}
         </a>
       </div>
     </div>
