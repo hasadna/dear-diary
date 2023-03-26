@@ -83,12 +83,12 @@ msgid ""
 "To do some serious investigative work, the raw data on this website is "
 "available on our Redash instance under \"dear-diary\""
 msgstr ""
-"בשביל עבודת חקר רצינית, המידע שמוצג באתר זמין גם בשרת הRedash של הסדנה, תחת "
+"בשביל עבודת חקר רצינית, המידע שמוצג באתר זמין גם בשרת הRedash של הסדנא, תחת "
 "\"dear diary\""
 
 #: templates/about.html:50
 msgid "Access Hasadna's Redash"
-msgstr "לRedash של הסדנה"
+msgstr "לRedash של הסדנא"
 
 #: templates/bare.html:19
 msgid "Dear Diary"
@@ -140,7 +140,7 @@ msgstr "אודות"
 
 #: templates/home.html:99
 msgid "Hasadna"
-msgstr "הסדנה"
+msgstr "הסדנא"
 
 #: templates/parsing/calendar_detail.html:8
 msgid "Name"
