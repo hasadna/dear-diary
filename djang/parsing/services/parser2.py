@@ -124,7 +124,7 @@ class ColumnParser:
             s = re.sub(r"\b" + re.escape(mon) + r"\b", sub, s)
         s = re.sub("[א-ת]{3} \d+", "", s)
         s = re.sub("[א-ת]+", "", s)
-        parse = dateutil_parser.parse(s)
+        parse = dateutil_parser.parse(s, dayfirst=True)
         if not parse:
             return None
         parse = TIMEZONE.localize(parse)
