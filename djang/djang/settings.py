@@ -144,8 +144,8 @@ TIME_ZONE = "Asia/Jerusalem"
 USE_I18N = True
 
 LANGUAGES = [
-    ('he', 'Hebrew'),
-    ('en', 'English'),
+    ("he", "Hebrew"),
+    ("en", "English"),
 ]
 
 USE_TZ = True

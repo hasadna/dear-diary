@@ -29,7 +29,7 @@ from parsing.views import (
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path("about/", AboutView.as_view()),
-    path('i18n/', include('django.conf.urls.i18n')),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
     path("api/calendars/", calendar_list),
     path("api/events/<int:calendar_id>", events_feed),
@@ -48,5 +48,4 @@ urlpatterns = [
         CalendarDetailView.as_view(),
         name="calendar-view",
     ),
-
 ]

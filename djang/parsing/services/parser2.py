@@ -10,6 +10,7 @@ from datetime import datetime, date
 
 TIMEZONE = pytz.timezone("Asia/Jerusalem")
 
+
 class ColumnFinder:
     @staticmethod
     def first_match(row, possible_keys):

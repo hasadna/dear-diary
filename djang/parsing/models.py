@@ -21,13 +21,13 @@ class Calendar(BaseModel):
     when_created_at_source = models.DateTimeField(null=True)
 
     def get_start(self):
-        event = self.event_set.order_by('start').first()
+        event = self.event_set.order_by("start").first()
         if not event:
             return None
         return event.start
 
     def get_end(self):
-        event = self.event_set.order_by('-end').first()
+        event = self.event_set.order_by("-end").first()
         if not event:
             return None
         return event.end
@@ -52,11 +52,10 @@ class Calendar(BaseModel):
             "sources": self.id,
         }
         if when:
-            fragments['date'] = when.strftime('%Y-%m-%d')
+            fragments["date"] = when.strftime("%Y-%m-%d")
         url_fragment = urlencode(fragments)
 
         return f"{base_url}#{url_fragment}"
-
 
 
 class DownloadReport(BaseModel):

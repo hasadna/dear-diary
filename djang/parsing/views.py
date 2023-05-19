@@ -42,8 +42,10 @@ def events_feed(request, calendar_id):
 class HomePageView(TemplateView):
     template_name = "home.html"
 
+
 class AboutView(TemplateView):
     template_name = "about.html"
+
 
 class DownloadReportListView(ListView):
     model = DownloadReport
@@ -68,12 +70,13 @@ class DownloadReportListView(ListView):
 class DownloadReportDetailView(DetailView):
     model = DownloadReport
 
+
 class CalendarDetailView(DetailView):
     model = Calendar
 
     def get_context_data(self, **kwargs):
         ret = super().get_context_data(**kwargs)
-        calendar = ret['calendar']
-        ret['start_url'] = calendar.get_calendar_url(calendar.get_start())
-        ret['end_url'] = calendar.get_calendar_url(calendar.get_end())
+        calendar = ret["calendar"]
+        ret["start_url"] = calendar.get_calendar_url(calendar.get_start())
+        ret["end_url"] = calendar.get_calendar_url(calendar.get_end())
         return ret
