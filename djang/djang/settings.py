@@ -165,8 +165,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 Q_CLUSTER = {
     "max_attempts": 1,
-    "timeout": 60,
-    "retry": 120,
+    "timeout": 120,
+    "retry": 180,
     "orm": "default",
     **(
         json.loads(os.environ["DJANGO_Q_CLUSTER_SETTINGS_JSON"])
