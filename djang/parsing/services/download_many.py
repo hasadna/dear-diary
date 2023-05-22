@@ -3,6 +3,7 @@ from datetime import datetime
 
 from .download_single import ResourceTuple, process_resource_impl
 from ..models import Calendar, DownloadReport
+from .parser2 import TIMEZONE
 
 from django_q.tasks import async_task
 
@@ -23,7 +24,7 @@ def get_resources(query: str, website: str):
             id=result["id"],
             name=result["name"],
             # TODO make this timezone aware
-            when_created=datetime.fromisoformat(result["created"]),
+            when_created=datetime.fromisoformat(result["created"]).astimezone(TIMEZONE),
             mimetype=result["mimetype"],
             url=result["url"],
             package_id=result["package_id"],
