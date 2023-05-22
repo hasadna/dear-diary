@@ -64,6 +64,8 @@ def workbook_to_dict(workbook):
                 val = str(val)
 
             row_ret[title] = val
+        if not any(row_ret.values()):
+            continue
         yield row_ret
 
 
